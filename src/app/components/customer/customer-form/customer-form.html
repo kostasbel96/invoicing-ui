@@ -1,0 +1,132 @@
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+  <div class="form-grid">
+
+    <div class="form-field">
+      <label for="firstname">Όνομα</label>
+      <input type="text" id="firstname" formControlName="firstname" class="form-control">
+      <div class="error">
+        @if (customerForm.get('firstname')?.touched && customerForm.get('firstname')?.invalid) {
+
+          @if (customerForm.get('firstname')?.errors?.['required']) {
+            <small>Το όνομα είναι υποχρεωτικό</small>
+          }
+
+          @if (customerForm.get('firstname')?.errors?.['minlength']) {
+            <small>Τουλάχιστον 2 χαρακτήρες</small>
+          }
+
+          @if (customerForm.get('firstname')?.errors?.['maxlength']) {
+            <small>Μέχρι 50 χαρακτήρες</small>
+          }
+
+        }
+      </div>
+
+    </div>
+    <div class="form-field">
+      <label for="lastname">Επώνυμο</label>
+      <input type="text" id="lastname" formControlName="lastname" class="form-control">
+      <div class="error">
+        @if (customerForm.get('lastname')?.touched && customerForm.get('lastname')?.invalid) {
+
+          @if (customerForm.get('lastname')?.errors?.['required']) {
+            <small>Το επώνυμο είναι υποχρεωτικό</small>
+          }
+
+          @if (customerForm.get('lastname')?.errors?.['minlength']) {
+            <small>Τουλάχιστον 2 χαρακτήρες</small>
+          }
+
+          @if (customerForm.get('lastname')?.errors?.['maxlength']) {
+            <small>Μέχρι 50 χαρακτήρες</small>
+          }
+
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email" class="form-control">
+      <div class="error">
+        @if (customerForm.get('email')?.touched && customerForm.get('email')?.invalid) {
+
+          @if (customerForm.get('email')?.errors?.['email']) {
+            <small>Μη έγκυρο email</small>
+          }
+
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="phone">Τηλέφωνο</label>
+      <input type="text" id="phone" formControlName="phone" class="form-control">
+      <div class="error">
+        @if (customerForm.get('phone')?.touched && customerForm.get('phone')?.invalid) {
+
+          @if (customerForm.get('phone')?.errors?.['required']) {
+            <small>Το τηλέφωνο είναι υποχρεωτικό</small>
+          }
+
+          @if (customerForm.get('phone')?.errors?.['pattern']) {
+            <small>Πρέπει να έχει τουλάχιστον 10 ψηφία</small>
+          }
+
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="vat">ΑΦΜ</label>
+      <input type="text" id="vat" formControlName="vat" class="form-control">
+      <div class="error">
+        @if (customerForm.get('vat')?.touched && customerForm.get('vat')?.invalid) {
+
+          @if (customerForm.get('vat')?.errors?.['required']) {
+            <small>Το ΑΦΜ είναι υποχρεωτικό</small>
+          }
+
+          @if (customerForm.get('vat')?.errors?.['pattern']) {
+            <small>Πρέπει να έχει 9 ή 10 ψηφία</small>
+          }
+
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="companyName">Επωνυμία</label>
+      <input type="text" id="companyName" formControlName="companyName" class="form-control">
+    </div>
+
+    <div class="form-field">
+      <label for="address">Διεύθυνση</label>
+      <input type="text" id="address" formControlName="address" class="form-control">
+    </div>
+
+    <div class="form-field">
+      <label for="postalCode">Ταχυδρομικός Κώδικας</label>
+      <input type="text" id="postalCode" formControlName="postalCode" class="form-control">
+    </div>
+
+    <div class="form-field">
+      <label for="regionId">Νομός</label>
+      <select id="regionId" formControlName="regionId" class="form-control">
+        <option value="">Επίλεξε Νομό</option>
+        @for (region of regions; track region.id) {
+          <option [value]="region.id">{{ region.name }}</option>
+        }
+      </select>
+      <div class="error">
+        @if (customerForm.get('regionId')?.touched && customerForm.get('regionId')?.invalid) {
+          <small>Πρέπει να επιλέξεις περιοχή</small>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="action-buttons">
+    <button type="submit" class="button-save" [disabled]="customerForm.invalid">Αποθήκευση</button>
+    <button type="button" class="button-reset" (click)="onReset()">Επαναφορά</button>
+  </div>
+</form>
