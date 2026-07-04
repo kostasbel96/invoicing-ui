@@ -1,0 +1,42 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Invoicing</h2>
+
+    <a [class.active]="isActive('/dashboard', (activeTab$ | async))" (click)="openTab('dashboard', '/dashboard')">Πίνακας ελέγχου</a>
+    <div class="menu-item">
+      <a>
+        Πελάτες
+      </a>
+
+      <div class="submenu">
+        <a [class.active]="isActive('/customers/new', (activeTab$ | async))"
+           (click)="openTab('newCustomer', '/customers/new')">Νέος Πελάτης</a>
+        <a routerLink="/customers">Λίστα Πελατών</a>
+      </div>
+    </div>
+    <a>Παραστατικά</a>
+    <a>Προιόντα</a>
+  </aside>
+
+  <div class="content">
+    <header class="toolbar">
+      <div class="tabs">
+        @for(tab of (tabService.tabs$ | async); track tab.id) {
+          <div
+            (click)="onTabClick(tab)"
+            [class.active]="(tabService.activeTab$ | async) === tab.route">
+            {{ tab.title }}
+            <span (click)="closeTab(tab.route); $event.stopPropagation()">
+              ✕
+            </span>
+          </div>
+
+        }
+      </div>
+    </header>
+
+    <main>
+      <router-outlet />
+    </main>
+  </div>
+</div>
