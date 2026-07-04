@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 })
 export class MainLayout {
   activeTab$: Observable<string>;
+
   constructor(
     protected readonly router: Router,
     protected readonly tabService: TabService,

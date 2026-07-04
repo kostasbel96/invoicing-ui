@@ -100,33 +100,37 @@
       <input type="text" id="companyName" formControlName="companyName" class="form-control">
     </div>
 
-    <div class="form-field">
-      <label for="address">Διεύθυνση</label>
-      <input type="text" id="address" formControlName="address" class="form-control">
-    </div>
+    <div class="address-group-form">
+      <div class="form-field">
+        <label for="address">Διεύθυνση</label>
+        <input type="text" id="address" formControlName="address" class="form-control">
+      </div>
 
-    <div class="form-field">
-      <label for="postalCode">Ταχυδρομικός Κώδικας</label>
-      <input type="text" id="postalCode" formControlName="postalCode" class="form-control">
-    </div>
+      <div class="form-field">
+        <label for="postalCode">Ταχυδρομικός Κώδικας</label>
+        <input type="text" id="postalCode" formControlName="postalCode" class="form-control">
+      </div>
 
-    <div class="form-field">
-      <label for="regionId">Νομός</label>
-      <select id="regionId" formControlName="regionId" class="form-control">
-        <option value="">Επίλεξε Νομό</option>
-        @for (region of regions; track region.id) {
-          <option [value]="region.id">{{ region.name }}</option>
-        }
-      </select>
-      <div class="error">
-        @if (customerForm.get('regionId')?.touched && customerForm.get('regionId')?.invalid) {
-          <small>Πρέπει να επιλέξεις περιοχή</small>
-        }
+      <div class="form-field">
+        <label for="regionId">Περιοχή</label>
+        <select id="regionId" formControlName="regionId" class="form-control">
+          <option value="">Επίλεξε Περιοχή</option>
+          @for (region of regions; track region.id) {
+            <option [value]="region.id">{{ region.name }}</option>
+          }
+        </select>
+        <div class="error">
+          @if (customerForm.get('regionId')?.touched && customerForm.get('regionId')?.invalid) {
+            <small>Πρέπει να επιλέξεις περιοχή</small>
+          }
+        </div>
       </div>
     </div>
+
+    <div class="action-buttons">
+      <button type="submit" class="button-save" [disabled]="customerForm.invalid">Αποθήκευση</button>
+      <button type="button" class="button-reset" (click)="onReset()">Επαναφορά</button>
+    </div>
   </div>
-  <div class="action-buttons">
-    <button type="submit" class="button-save" [disabled]="customerForm.invalid">Αποθήκευση</button>
-    <button type="button" class="button-reset" (click)="onReset()">Επαναφορά</button>
-  </div>
+
 </form>

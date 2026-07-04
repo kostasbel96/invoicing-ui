@@ -29,6 +29,7 @@ export const routes: Routes = [
       //   path: 'invoices',
       //   component: InvoiceListComponent,
       // },
+      { path: '**', redirectTo: 'dashboard' }
     ],
   },
 ];

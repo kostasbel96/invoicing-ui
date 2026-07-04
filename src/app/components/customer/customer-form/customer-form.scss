@@ -9,6 +9,11 @@
   flex-direction: column;
 }
 
+.address-group-form {
+  display: flex;
+  gap: 16px;
+}
+
 .form-field.full {
   grid-column: span 2;
 }
