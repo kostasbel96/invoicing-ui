@@ -113,12 +113,16 @@
 
       <div class="form-field">
         <label for="regionId">Περιοχή</label>
-        <select id="regionId" formControlName="regionId" class="form-control">
-          <option value="">Επίλεξε Περιοχή</option>
-          @for (region of regions; track region.id) {
-            <option [value]="region.id">{{ region.name }}</option>
-          }
-        </select>
+        @if (loadingRegions()) {
+          <div class="loading">Φόρτωση περιοχών...</div>
+        } @else {
+          <select id="regionId" formControlName="regionId" class="form-control">
+            <option value="">Επίλεξε Περιοχή</option>
+            @for (region of regions; track region.id) {
+              <option [value]="region.id">{{ region.name }}</option>
+            }
+          </select>
+        }
         <div class="error">
           @if (customerForm.get('regionId')?.touched && customerForm.get('regionId')?.invalid) {
             <small>Πρέπει να επιλέξεις περιοχή</small>

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CustomerInsert } from '../../../models/customer.model';
 import { CustomerService } from '../../../services/customer-service';
+import { Region } from '../../../models/region.model';
+import { RegionService } from '../../../services/region-service';
 
 @Component({
   selector: 'app-customer-form',
@@ -10,12 +12,9 @@ import { CustomerService } from '../../../services/customer-service';
   templateUrl: './customer-form.html',
   styleUrl: './customer-form.scss',
 })
-export class CustomerForm {
-  regions = [
-    { id: 1, name: 'Athens' },
-    { id: 2, name: 'Thessaloniki' },
-    { id: 3, name: 'Patra' },
-  ];
+export class CustomerForm implements OnInit {
+  regions: Region[] = [];
+  loadingRegions = signal(true);
   customerForm: FormGroup;
   customerToSubmit: CustomerInsert = {
     firstname: '',
@@ -23,13 +22,17 @@ export class CustomerForm {
     email: '',
     phone: '',
     vat: '',
-    regionId: 0,
+    regionId: 1,
     address: '',
     postalCode: '',
     companyName: '',
   };
 
-  constructor(private readonly formBuilder: FormBuilder, private readonly customerService: CustomerService) {
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly customerService: CustomerService,
+    private readonly regionService: RegionService,
+  ) {
     this.customerForm = this.formBuilder.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
@@ -42,10 +45,19 @@ export class CustomerForm {
       regionId: [1, [Validators.required]],
     });
   }
+  ngOnInit(): void {
+    this.regionService.getRegions().subscribe((regions) => {
+      this.regions = regions;
+      this.loadingRegions.set(false);
+    });
+  }
 
   onSubmit() {
     if (this.customerForm.invalid) return;
-    this.customerToSubmit = this.customerForm.value;
+    this.customerToSubmit = {
+      ...this.customerForm.value,
+      regionId: Number(this.customerForm.value.regionId),
+    };
     this.customerService.addCustomer(this.customerToSubmit).subscribe({
       next: (response) => {
         console.log('Customer added successfully:', response);
@@ -53,7 +65,7 @@ export class CustomerForm {
       },
       error: (error) => {
         console.error('Error adding customer:', error);
-      }
+      },
     });
   }
 
