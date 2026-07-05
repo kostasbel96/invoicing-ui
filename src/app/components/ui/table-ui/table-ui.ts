@@ -27,13 +27,13 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './table-ui.html',
   styleUrl: './table-ui.scss',
 })
-export class TableUi {
-  @Input() data: Customer[] = [];
+export class TableUi<T> {
+  @Input() data: T[] = [];
   @Input() columns: { field: string; header: string }[] = [];
   @Input() rows: number = 10;
   value = 's';
 
-  @Input() loading:WritableSignal<boolean>;
+  @Input() loading: boolean = false;
 
   activityValues: number[] = [0, 100];
 

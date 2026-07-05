@@ -5,10 +5,10 @@
     dataKey="id"
     [rows]="rows"
     [rowsPerPageOptions]="[10, 25, 50]"
-    [loading]="loading()"
+    [loading]="loading"
     [paginator]="true"
     [globalFilterFields]="[]"
-    [tableStyle]="{ 'min-width': '75rem' }"
+    [tableStyle]="{ 'max-width': '75rem' }"
     [scrollable]="true"
     [rowHover]="true"
     scrollHeight="flex"
@@ -92,23 +92,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.firstname }}</td>
-        <td>{{ item.lastname }}</td>
-        <td>{{ item.email }}</td>
-        <td>{{ item.phone }}</td>
-        <td>{{ item.address }}</td>
-        <td>{{ item.postalCode }}</td>
-        <td>{{ item.vat }}</td>
-        <td>{{ item.companyName }}</td>
-        <td>{{ item.balance }}</td>
-        <td>{{ item.regionId }}</td>
-<!--        <td>-->
-<!--&lt;!&ndash;          <p-tag&ndash;&gt;-->
-<!--&lt;!&ndash;            [value]="customer"&ndash;&gt;-->
-<!--&lt;!&ndash;            [severity]="'info'" />&ndash;&gt;-->
-<!--        </td>-->
-
+        @for(col of columns; track col.field){
+          <td [style.width.%]="100 / columns.length" [id]="col.field">{{ item[col.field] }}</td>
+        }
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
