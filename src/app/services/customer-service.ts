@@ -12,4 +12,8 @@ export class CustomerService {
   addCustomer(customer: CustomerInsert): Observable<Customer> {
     return this.http.post<Customer>('https://localhost:5216/api/Customers/Add', customer);
   }
+
+  getCustomers(page: number, pageSize: number) : Observable<any> {
+    return this.http.get<any>(`https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}`);
+  }
 }

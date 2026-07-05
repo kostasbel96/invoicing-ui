@@ -11,7 +11,8 @@
       <div class="submenu">
         <a [class.active]="isActive('/customers/new', (activeTab$ | async))"
            (click)="openTab('newCustomer', '/customers/new')">Νέος Πελάτης</a>
-        <a routerLink="/customers">Λίστα Πελατών</a>
+        <a [class.active]="isActive('/customers', (activeTab$ | async))"
+           (click)="openTab('customers', '/customers')">Λίστα Πελατών</a>
       </div>
     </div>
     <a>Παραστατικά</a>

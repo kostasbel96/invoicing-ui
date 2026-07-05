@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet, RouterLink} from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { TabService } from '../../../services/tab-service';
 import { AsyncPipe } from '@angular/common';
 import { Tab } from '../../../models/tab.model';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe, RouterLink],
+  imports: [RouterOutlet, AsyncPipe],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })

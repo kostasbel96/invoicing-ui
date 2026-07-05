@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { CustomerForm } from './components/customer/customer-form/customer-form';
 import { MainLayout } from './components/layout/main-layout/main-layout';
 import { Dashboard } from './components/dashboard/dashboard/dashboard';
+import { CustomerTable } from './components/customer/customer-table/customer-table/customer-table';
 
 export const routes: Routes = [
   {
@@ -17,10 +18,10 @@ export const routes: Routes = [
         path: 'dashboard',
         component: Dashboard,
       },
-      // {
-      //   path: 'customers',
-      //   component: CustomerListComponent,
-      // },
+      {
+        path: 'customers',
+        component: CustomerTable,
+      },
       {
         path: 'customers/new',
         component: CustomerForm,
@@ -29,7 +30,6 @@ export const routes: Routes = [
       //   path: 'invoices',
       //   component: InvoiceListComponent,
       // },
-      { path: '**', redirectTo: 'dashboard' }
     ],
   },
 ];
