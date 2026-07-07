@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Customer, CustomerInsert } from '../models/customer.model';
 import { Observable } from 'rxjs';
+import { PaginatedResponse } from '../models/response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class CustomerService {
     return this.http.post<Customer>('https://localhost:5216/api/Customers/Add', customer);
   }
 
-  getCustomers(page: number, pageSize: number) : Observable<any> {
-    return this.http.get<any>(`https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}`);
+  getCustomers(page: number, pageSize: number) : Observable<PaginatedResponse<Customer>> {
+    return this.http.get<PaginatedResponse<Customer>>(`https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}`);
   }
 }

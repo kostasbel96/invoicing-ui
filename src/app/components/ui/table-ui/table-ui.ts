@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -7,8 +7,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { CommonModule } from '@angular/common';
-import { Customer } from '../../../models/customer.model';
-import { CustomerService } from '../../../services/customer-service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -29,9 +27,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class TableUi<T> {
   @Input() data: T[] = [];
-  @Input() columns: { field: string; header: string }[] = [];
+  @Input() columns: { field: string; header: string; width?: number; }[] = [];
   @Input() rows: number = 10;
   value = 's';
+  selectedItems: T[] = [];
 
   @Input() loading: boolean = false;
 

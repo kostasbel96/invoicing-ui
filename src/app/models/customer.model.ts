@@ -1,3 +1,5 @@
+import { Region } from './region.model';
+
 export interface CustomerInsert {
   firstname: string;
   lastname: string;
@@ -22,5 +24,5 @@ export interface Customer {
   vat?: string | null;
   companyName?: string | null;
   balance: number;
-  regionId: number;
+  region: Region;
 }
