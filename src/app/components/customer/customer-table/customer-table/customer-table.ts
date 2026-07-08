@@ -22,7 +22,7 @@ export class CustomerTable implements OnInit {
     { field: 'vat', header: 'ΑΦΜ', width: 7 },
     { field: 'companyName', header: 'Επωνυμία', width: 12 },
     { field: 'balance', header: 'Υπόλοιπο', width: 6 },
-    { field: 'regionName', header: 'Περιοχή', width: 7 },
+    { field: 'regionName', header: 'Περιοχή', width: 7 }
   ];
   data: Customer[] = [];
   loading= signal<boolean>(true);

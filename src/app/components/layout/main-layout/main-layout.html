@@ -1,28 +1,50 @@
-<div class="layout">
+<div class="layout" [class.collapsed]="sidebarCollapsed()">
   <aside class="sidebar">
-    <h2>Invoicing</h2>
+    <div class="header-aside">
+      <h2>Invoicing</h2>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="pi"
+           [class.pi-angle-left]="!sidebarCollapsed()"
+           [class.pi-angle-right]="sidebarCollapsed()">
+        </i>
+      </button>
+    </div>
 
-    <a [class.active]="isActive('/dashboard', (activeTab$ | async))" (click)="openTab('dashboard', '/dashboard')">Πίνακας ελέγχου</a>
+    <a
+      [class.active]="isActive('/dashboard', (activeTab$ | async))"
+      (click)="openTab('dashboard', '/dashboard')"
+    >
+      <i class="pi pi-home"></i>
+      <span class="label">Πίνακας ελέγχου</span>
+    </a>
     <div class="menu-item">
       <a>
-        Πελάτες
+        <i class="pi pi-users"></i>
+        <span class="label">Πελάτες</span>
       </a>
 
       <div class="submenu">
-        <a [class.active]="isActive('/customers/new', (activeTab$ | async))"
-           (click)="openTab('newCustomer', '/customers/new')">Νέος Πελάτης</a>
-        <a [class.active]="isActive('/customers', (activeTab$ | async))"
-           (click)="openTab('customers', '/customers')">Λίστα Πελατών</a>
+        <div>
+          <a [class.active]="isActive('/customers/new', (activeTab$ | async))" (click)="openTab('newCustomer', '/customers/new')">
+            <span class="label-submenu">Νέος Πελάτης</span>
+          </a>
+        </div>
+
+        <div>
+          <a [class.active]="isActive('/customers', (activeTab$ | async))" (click)="openTab('customers', '/customers')">
+            <span class="label-submenu">Λίστα Πελατών</span>
+          </a>
+        </div>
       </div>
     </div>
-    <a>Παραστατικά</a>
-    <a>Προιόντα</a>
+    <a><i class="pi pi-receipt"></i><span class="label">Παραστατικά</span></a>
+    <a><i class="pi pi-box"></i><span class="label">Προιόντα</span></a>
   </aside>
 
   <div class="content">
     <header class="toolbar">
       <div class="tabs">
-        @for(tab of (tabService.tabs$ | async); track tab.id) {
+        @for(tab of (tabService.tabs$ | async); track tab.route) {
           <div
             (click)="onTabClick(tab)"
             [class.active]="(tabService.activeTab$ | async) === tab.route">

@@ -1,32 +1,92 @@
 .layout {
   display: flex;
   height: 100vh;
+
+  &.collapsed {
+    .sidebar {
+      width: 50px;
+
+      h2,
+      .label {
+        display: none;
+      }
+
+      .sidebar a {
+        justify-content: center;
+      }
+      .submenu a {
+        justify-content: start;
+        padding: 14px;
+      }
+
+    }
+  }
 }
 
+/* SIDEBAR */
 .sidebar {
   width: 240px;
   background: #1f2937;
   color: white;
   display: flex;
   flex-direction: column;
-  h2 {
+  transition: width .25s ease;
+  overflow: visible;
+
+
+  .header-aside {
     display: flex;
     justify-content: center;
   }
+
+  a {
+    color: white;
+    padding: 14px 18px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    justify-content: start;
+  }
+
+
+  a:hover {
+    background: #374151;
+    cursor: pointer;
+  }
+
+  a.active {
+    background: #1e3a8a;
+    border-left: 3px solid #3b82f6;
+    color: white;
+    font-weight: 500;
+  }
 }
 
-.sidebar a {
-  color: white;
-  padding: 14px 18px;
-  text-decoration: none;
-}
 
-.sidebar a:hover,
-.sidebar a.active {
+/* COLLAPSE BUTTON */
+.sidebar-toggle {
+  margin: 10px;
+  width: 50px;
+  height: 35px;
+  border: none;
+  border-radius: 6px;
   background: #374151;
+  color: white;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  &:hover {
+    background: #4b5563;
+  }
 }
 
+
+/* CONTENT */
 .content {
   flex: 1;
   display: flex;
@@ -38,7 +98,6 @@
   border-bottom: 1px solid #ddd;
   display: flex;
   align-items: center;
-  padding: 2px 0px 0px 0px;
 }
 
 main {
@@ -47,32 +106,35 @@ main {
   overflow-x: auto;
 }
 
-.sidebar a.active {
-  background: #1e3a8a;
-  border-left: 3px solid #3b82f6;
-  color: white;
-  font-weight: 500;
-}
-
+/* MENU */
 .menu-item {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
 
+
+/* SUBMENU FLYOUT */
 .submenu {
   display: none;
   flex-direction: column;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 180px;
   background: #111827;
+  border-radius: 6px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
 }
 
 .menu-item:hover .submenu {
   display: flex;
 }
 
-/* submenu links */
 .submenu a {
-  padding-left: 40px;
-  font-size: 13px;
+  padding: 12px 16px;
+  font-size: 12px;
   color: #9ca3af;
 }
 
@@ -81,10 +143,13 @@ main {
   color: white;
 }
 
+/* TABS */
 .tabs {
   display: flex;
   gap: 8px;
   border-bottom: 1px solid #ddd;
+  margin-top: 2px;
+  margin-left: 2px;
 }
 
 .tabs div {
@@ -100,13 +165,14 @@ main {
   border-bottom: none;
 }
 
+/* CLOSE TAB */
 .tabs span {
   margin-left: 8px;
   color: red;
   cursor: pointer;
   padding: 2px;
   border-radius: 5px;
-  transition: background 0.2s ease;
+  transition: background .2s ease;
 
   &:hover {
     background: #374151;

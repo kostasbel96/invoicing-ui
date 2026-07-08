@@ -1,0 +1,44 @@
+@if (loading()) {
+  <app-spinner-ui size="3rem" />
+} @else {
+  <div class="customer-page">
+
+    <div class="header">
+      <div>
+        <h2>Πληροφορίες Πελάτη</h2>
+        <span class="subtitle">
+          Στοιχεία πελάτη και βασικές πληροφορίες
+        </span>
+      </div>
+
+      <div class="actions">
+        <button class="edit-button">
+          <i class="pi pi-pencil"></i>
+          <span>Επεξεργασία</span>
+        </button>
+      </div>
+    </div>
+
+
+    <div class="info-card">
+
+      <div class="section-title">
+        <i class="pi pi-user"></i>
+        <span>Γενικά στοιχεία</span>
+      </div>
+
+      <div class="details-grid">
+        @for (field of customerFields; track field.key) {
+          <div class="field">
+            <label [for]="field.key">{{ field.label }}</label>
+            <div class="value">
+              {{ getFieldValue(field.key) ?? '-' }}
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+
+  </div>
+}

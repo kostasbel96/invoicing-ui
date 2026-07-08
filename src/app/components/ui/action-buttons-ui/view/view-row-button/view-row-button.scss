@@ -1,0 +1,9 @@
+.view {
+  background-color: #7db1f4;
+  border-radius: 10px;
+  padding: 5px;
+  &:hover {
+    background-color: #94bbf4;
+    cursor: pointer;
+  }
+}

@@ -8,3 +8,10 @@ html, body {
   padding: 0;
   margin: 0;
 }
+
+:root {
+  --primary-color: #2563eb;
+  --text-color-secondary: #6b7280;
+  --surface-card: #ffffff;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}

@@ -17,4 +17,8 @@ export class CustomerService {
   getCustomers(page: number, pageSize: number) : Observable<PaginatedResponse<Customer>> {
     return this.http.get<PaginatedResponse<Customer>>(`https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}`);
   }
+
+  getCustomer(uuid: string): Observable<Customer> {
+    return this.http.get<Customer>(`https://localhost:5216/api/Customers/by-uuid/${uuid}`);
+  }
 }

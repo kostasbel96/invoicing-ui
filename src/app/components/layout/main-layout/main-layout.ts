@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TabService } from '../../../services/tab-service';
 import { AsyncPipe } from '@angular/common';
@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 })
 export class MainLayout {
   activeTab$: Observable<string>;
+  sidebarCollapsed = signal(false);
 
   constructor(
     protected readonly router: Router,
@@ -22,22 +23,10 @@ export class MainLayout {
     this.activeTab$ = this.tabService.activeTab$;
   }
 
-  private getTitle(id: string): string {
-    const map: Record<string, string> = {
-      dashboard: 'Πίνακας Ελέγχου',
-      customers: 'Πελάτες',
-      newCustomer: 'Νέος Πελάτης',
-      invoices: 'Παραστατικά',
-      products: 'Προϊόντα',
-    };
-
-    return map[id] ?? id;
-  }
-
   openTab(id: string, route: string) {
     this.tabService.addTab({
       id,
-      title: this.getTitle(id),
+      title: this.tabService.getTitle(id),
       route,
     });
 
@@ -59,5 +48,9 @@ export class MainLayout {
 
   isActive(route: string, active: string | null): boolean {
     return route === active;
+  }
+
+  toggleSidebar() {
+    this.sidebarCollapsed.update((value) => !value);
   }
 }

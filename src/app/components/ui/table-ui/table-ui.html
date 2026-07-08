@@ -41,6 +41,9 @@
             {{ col.header }}
           </th>
         }
+        <th>
+          <span>Ενέργειες</span>
+        </th>
       </tr>
       <tr>
 <!--        <th>-->
@@ -107,6 +110,7 @@
         @for(col of columns; track col.field){
           <td [style.width.%]="100 / columns.length" [id]="col.field">{{ item[col.field] }}</td>
         }
+        <td><app-view-row-button [rowId]="item.uuid" [rowType]="rowType" /></td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">

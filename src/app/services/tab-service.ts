@@ -20,12 +20,17 @@ export class TabService {
   }
 
   addTab(tab: Tab) {
-    const exists = this.tabsSubject.value.some((t) => t.id === tab.id);
+    const tabs = this.tabsSubject.value;
 
-    if (!exists) {
-      this.tabsSubject.next([...this.tabsSubject.value, tab]);
+    const existingTab = tabs.find(t => t.id === tab.id);
+
+    if (existingTab) {
+      existingTab.route = tab.route;
+    } else {
+      tabs.push(tab);
     }
 
+    this.tabsSubject.next([...tabs]);
     this.setActive(tab.route);
   }
 
@@ -41,7 +46,7 @@ export class TabService {
     const isActive = this.activeTabSubject.value === route;
 
     if (isActive) {
-      const fallback = tabs[tabs.length - 1] || null;
+      const fallback = tabs.at(-1) || null;
 
       const nextRoute = fallback ? fallback.route : '/dashboard';
 
@@ -51,5 +56,18 @@ export class TabService {
     }
 
     return null;
+  }
+
+  public getTitle(id: string): string {
+    const map: Record<string, string> = {
+      dashboard: 'Πίνακας Ελέγχου',
+      customers: 'Πελάτες',
+      newCustomer: 'Νέος Πελάτης',
+      invoices: 'Παραστατικά',
+      products: 'Προϊόντα',
+      customer: 'Πληροφορίες Πελάτη'
+    };
+
+    return map[id] ?? id;
   }
 }
