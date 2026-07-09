@@ -104,11 +104,21 @@
       <div class="form-field">
         <label for="address">Διεύθυνση</label>
         <input type="text" id="address" formControlName="address" class="form-control">
+        <div class="error">
+          @if (customerForm.get('address')?.touched && customerForm.get('address')?.invalid) {
+            <small>Πρέπει να εισάγεις διεύθυνση</small>
+          }
+        </div>
       </div>
 
       <div class="form-field">
         <label for="postalCode">Ταχυδρομικός Κώδικας</label>
         <input type="text" id="postalCode" formControlName="postalCode" class="form-control">
+        <div class="error">
+          @if (customerForm.get('postalCode')?.touched && customerForm.get('postalCode')?.invalid) {
+            <small>Πρέπει να είναι 5 ψηφία</small>
+          }
+        </div>
       </div>
 
       <div class="form-field">
@@ -117,7 +127,7 @@
           <div class="loading">Φόρτωση περιοχών...</div>
         } @else {
           <select id="regionId" formControlName="regionId" class="form-control">
-            <option value="">Επίλεξε Περιοχή</option>
+            <option [value]="">Επίλεξε Περιοχή</option>
             @for (region of regions; track region.id) {
               <option [value]="region.id">{{ region.name }}</option>
             }
