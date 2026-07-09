@@ -1,7 +1,9 @@
 <app-table-ui
   [columns]="columns"
   [data]="data"
-  [rows]="10"
   [loading]="loading()"
+  [totalRecords]="totalRecords"
+  [rows]="rows"
   [rowType]="'customer'"
+  (lazyLoad)="loadCustomers($event)"
   ></app-table-ui>

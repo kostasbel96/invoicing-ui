@@ -1,8 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TableUi } from '../../../ui/table-ui/table-ui';
 import { CustomerService } from '../../../../services/customer-service';
 import { Customer } from '../../../../models/customer.model';
-import { RegionService } from '../../../../services/region-service';
+import { TableLazyLoadEvent } from 'primeng/table';
 
 @Component({
   selector: 'app-customer-table',
@@ -10,7 +10,7 @@ import { RegionService } from '../../../../services/region-service';
   templateUrl: './customer-table.html',
   styleUrl: './customer-table.scss',
 })
-export class CustomerTable implements OnInit {
+export class CustomerTable {
   columns = [
     { field: 'id', header: 'Α/Α', width: 5 },
     { field: 'firstname', header: 'Όνομα', width: 9 },
@@ -22,19 +22,24 @@ export class CustomerTable implements OnInit {
     { field: 'vat', header: 'ΑΦΜ', width: 7 },
     { field: 'companyName', header: 'Επωνυμία', width: 12 },
     { field: 'balance', header: 'Υπόλοιπο', width: 6 },
-    { field: 'regionName', header: 'Περιοχή', width: 7 }
+    { field: 'regionName', header: 'Περιοχή', width: 7 },
   ];
   data: Customer[] = [];
-  loading= signal<boolean>(true);
+  loading = signal<boolean>(true);
+  rows: number = 10;
+  totalRecords: number = 0;
 
-  constructor(private readonly customerService: CustomerService) {
+  constructor(private readonly customerService: CustomerService) {}
 
-  }
+  loadCustomers(event: TableLazyLoadEvent) {
+    const page = (event.first ?? 0) / (event.rows ?? 10);
+    const pageSize = event.rows ?? 10;
+    this.loading.set(true);
 
-  ngOnInit(): void {
-    this.customerService.getCustomers(1, 10).subscribe((response) => {
+    this.customerService.getCustomers(page, pageSize).subscribe((response) => {
       this.data = response.data;
       this.data = this.data.map((customer) => ({ ...customer, regionName: customer.region.name }));
+      this.totalRecords = response.totalRecords;
       this.loading.set(false);
     });
   }
