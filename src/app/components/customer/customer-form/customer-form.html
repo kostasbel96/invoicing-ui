@@ -54,6 +54,9 @@
           @if (customerForm.get('email')?.errors?.['email']) {
             <small>Μη έγκυρο email</small>
           }
+          @if (customerForm.get('email')?.errors?.['required']) {
+            <small>Το email είναι υποχρεωτικό</small>
+          }
 
         }
       </div>

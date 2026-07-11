@@ -36,7 +36,7 @@ export class CustomerForm implements OnInit {
     this.customerForm = this.formBuilder.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      email: ['', [Validators.email]],
+      email: ['', [Validators.email, Validators.required]],
       phone: ['', [Validators.required, Validators.pattern(/^\d{10,}$/)]],
       address: ['', [Validators.required]],
       postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]],

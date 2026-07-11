@@ -30,23 +30,25 @@ export class CustomerTable implements OnInit {
   rows: number = 10;
   totalRecords: number = 0;
   searchSubject = new Subject<string>();
+  currentSearch: string = "";
 
   constructor(private readonly customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.searchSubject
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((search) => {
-      this.loadCustomers({ first: 0, rows: this.rows }, search); // reset σε σελίδα 1
+      .pipe(debounceTime(400), distinctUntilChanged()).subscribe((search) => {
+      this.currentSearch = search;
+      this.loadCustomers({ first: 0, rows: this.rows });
     });
   }
 
-  loadCustomers(event: TableLazyLoadEvent, search?: string): void {
-    const page = (event.first ?? 0) / (event.rows ?? 10);
-    const pageSize = event.rows ?? 10;
+  loadCustomers(event: TableLazyLoadEvent): void {
+    this.rows = event.rows ?? this.rows;
+    const page = (event.first ?? 0) / (this.rows ?? 10);
+    const pageSize = this.rows ?? 10;
     this.loading.set(true);
 
-    this.customerService.getCustomers(page, pageSize, search ?? "").subscribe((response) => {
+    this.customerService.getCustomers(page, pageSize, this.currentSearch).subscribe((response) => {
       this.data = response.data;
       this.data = this.data.map((customer) => ({ ...customer, regionName: customer.region.name ?? "-" }));
       this.totalRecords = response.totalRecords;
