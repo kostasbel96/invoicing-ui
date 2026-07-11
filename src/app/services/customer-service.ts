@@ -14,8 +14,9 @@ export class CustomerService {
     return this.http.post<Customer>('https://localhost:5216/api/Customers/Add', customer);
   }
 
-  getCustomers(page: number, pageSize: number) : Observable<PaginatedResponse<Customer>> {
-    return this.http.get<PaginatedResponse<Customer>>(`https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}`);
+  getCustomers(page: number, pageSize: number, search: string) : Observable<PaginatedResponse<Customer>> {
+    return this.http
+      .get<PaginatedResponse<Customer>>(`https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}&search=${search ?? ""}`);
   }
 
   getCustomer(uuid: string): Observable<Customer> {

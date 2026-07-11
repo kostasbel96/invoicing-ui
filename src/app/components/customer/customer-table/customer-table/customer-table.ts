@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { TableUi } from '../../../ui/table-ui/table-ui';
 import { CustomerService } from '../../../../services/customer-service';
 import { Customer } from '../../../../models/customer.model';
 import { TableLazyLoadEvent } from 'primeng/table';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-customer-table',
@@ -10,7 +11,7 @@ import { TableLazyLoadEvent } from 'primeng/table';
   templateUrl: './customer-table.html',
   styleUrl: './customer-table.scss',
 })
-export class CustomerTable {
+export class CustomerTable implements OnInit {
   columns = [
     { field: 'id', header: 'Α/Α', width: 5 },
     { field: 'firstname', header: 'Όνομα', width: 9 },
@@ -28,19 +29,32 @@ export class CustomerTable {
   loading = signal<boolean>(true);
   rows: number = 10;
   totalRecords: number = 0;
+  searchSubject = new Subject<string>();
 
   constructor(private readonly customerService: CustomerService) {}
 
-  loadCustomers(event: TableLazyLoadEvent) {
+  ngOnInit(): void {
+    this.searchSubject
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((search) => {
+      this.loadCustomers({ first: 0, rows: this.rows }, search); // reset σε σελίδα 1
+    });
+  }
+
+  loadCustomers(event: TableLazyLoadEvent, search?: string): void {
     const page = (event.first ?? 0) / (event.rows ?? 10);
     const pageSize = event.rows ?? 10;
     this.loading.set(true);
 
-    this.customerService.getCustomers(page, pageSize).subscribe((response) => {
+    this.customerService.getCustomers(page, pageSize, search ?? "").subscribe((response) => {
       this.data = response.data;
-      this.data = this.data.map((customer) => ({ ...customer, regionName: customer.region.name }));
+      this.data = this.data.map((customer) => ({ ...customer, regionName: customer.region.name ?? "-" }));
       this.totalRecords = response.totalRecords;
       this.loading.set(false);
     });
+  }
+
+  onSearch(search: string): void {
+    this.searchSubject.next(search);
   }
 }

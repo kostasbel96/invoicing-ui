@@ -36,6 +36,7 @@ export class TableUi<T> {
   @Input() loading: boolean = false;
   @Input() totalRecords = 0;
   @Output() lazyLoad = new EventEmitter<TableLazyLoadEvent>();
+  @Output() globalSearch = new EventEmitter<string>();
   selectedItems: T[] = [];
 
   activityValues: number[] = [0, 100];
@@ -46,5 +47,10 @@ export class TableUi<T> {
 
   loadData(event: TableLazyLoadEvent): void {
     this.lazyLoad.emit(event);
+  }
+
+  onGlobalSearch(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.globalSearch.emit(value);
   }
 }
