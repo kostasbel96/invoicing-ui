@@ -3,7 +3,7 @@ import { TableUi } from '../../../ui/table-ui/table-ui';
 import { CustomerService } from '../../../../services/customer-service';
 import { Customer } from '../../../../models/customer.model';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-customer-table',
