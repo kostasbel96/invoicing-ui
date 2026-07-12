@@ -14,9 +14,10 @@ export class CustomerService {
     return this.http.post<Customer>('https://localhost:5216/api/Customers/Add', customer);
   }
 
-  getCustomers(page: number, pageSize: number, search: string) : Observable<PaginatedResponse<Customer>> {
+  getCustomers(page: number, pageSize: number, search: string, sortField: string, sortOrder: string) : Observable<PaginatedResponse<Customer>> {
     return this.http
-      .get<PaginatedResponse<Customer>>(`https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}&search=${search ?? ""}`);
+      .get<PaginatedResponse<Customer>>(
+        `https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}&search=${search ?? ""}&sortField=${sortField}&sortOrder=${sortOrder}`,);
   }
 
   getCustomer(uuid: string): Observable<Customer> {

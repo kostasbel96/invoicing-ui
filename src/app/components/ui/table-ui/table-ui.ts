@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -30,19 +30,24 @@ import { LazyLoadEvent } from 'primeng/api';
 })
 export class TableUi<T> {
   @Input() data: T[] = [];
-  @Input() columns: { field: string; header: string; width?: number }[] = [];
+  @Input() columns: { field: string; header: string; width?: number; sortable: boolean }[] = [];
   @Input() rows: number;
   @Input() rowType: string;
   @Input() loading: boolean = false;
   @Input() totalRecords = 0;
+  @Input() globalSearchPlaceholder: string;
   @Output() lazyLoad = new EventEmitter<TableLazyLoadEvent>();
   @Output() globalSearch = new EventEmitter<string>();
-  selectedItems: T[] = [];
+  @ViewChild('dt2') table!: Table;
 
   activityValues: number[] = [0, 100];
 
   clear(table: Table) {
     table.clear();
+  }
+
+  resetPage() {
+    this.table.first = 0;
   }
 
   loadData(event: TableLazyLoadEvent): void {
