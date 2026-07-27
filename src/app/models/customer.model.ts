@@ -1,4 +1,5 @@
 import { Region } from './region.model';
+import { TaxOffice } from './taxOffice.model';
 
 export interface CustomerInsert {
   firstname: string;
@@ -10,6 +11,7 @@ export interface CustomerInsert {
   vat: string;
   companyName?: string;
   regionId: number;
+  taxOfficeId: number;
 }
 
 export interface Customer {
@@ -25,4 +27,5 @@ export interface Customer {
   companyName?: string | null;
   balance: number;
   region: Region;
+  taxOffice: TaxOffice;
 }
