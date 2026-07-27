@@ -4,6 +4,8 @@ import { CustomerInsert } from '../../../models/customer.model';
 import { CustomerService } from '../../../services/customer-service';
 import { Region } from '../../../models/region.model';
 import { RegionService } from '../../../services/region-service';
+import { TaxOffice } from '../../../models/taxOffice.model';
+import { TaxOfficeService } from '../../../services/tax-office-service';
 
 @Component({
   selector: 'app-customer-form',
@@ -14,7 +16,9 @@ import { RegionService } from '../../../services/region-service';
 })
 export class CustomerForm implements OnInit {
   regions: Region[] = [];
+  taxOffices: TaxOffice[] = [];
   loadingRegions = signal(true);
+  loadingTaxOffices = signal(false);
   customerForm: FormGroup;
   customerToSubmit: CustomerInsert = {
     firstname: '',
@@ -26,12 +30,14 @@ export class CustomerForm implements OnInit {
     address: '',
     postalCode: '',
     companyName: '',
+    taxOfficeId: 1,
   };
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly customerService: CustomerService,
     private readonly regionService: RegionService,
+    private readonly taxOfficeService: TaxOfficeService
   ) {
     this.customerForm = this.formBuilder.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
@@ -43,13 +49,18 @@ export class CustomerForm implements OnInit {
       vat: ['', [Validators.required, Validators.pattern(/^\d{9,10}$/)]],
       companyName: '',
       regionId: [1, [Validators.required]],
+      taxOfficeId: [1, [Validators.required]],
     });
   }
   ngOnInit(): void {
     this.regionService.getRegions().subscribe((regions) => {
-      this.regions = regions;
+      this.regions = regions.slice().sort((a, b) => a.name.localeCompare(b.name));
       this.loadingRegions.set(false);
     });
+    this.taxOfficeService.getTaxOffices().subscribe((taxOffices) => {
+      this.taxOffices = taxOffices.slice().sort((a, b) => a.name.localeCompare(b.name));
+      this.loadingTaxOffices.set(false);
+    })
   }
 
   onSubmit() {
@@ -57,6 +68,7 @@ export class CustomerForm implements OnInit {
     this.customerToSubmit = {
       ...this.customerForm.value,
       regionId: Number(this.customerForm.value.regionId),
+      taxOfficeId: Number(this.customerForm.value.taxOfficeId),
     };
     this.customerService.addCustomer(this.customerToSubmit).subscribe({
       next: (response) => {
@@ -70,6 +82,17 @@ export class CustomerForm implements OnInit {
   }
 
   onReset() {
-    this.customerForm.reset();
+    this.customerForm.reset({
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      address: '',
+      postalCode: '',
+      vat: '',
+      companyName: '',
+      regionId: 1,
+      taxOfficeId: 1,
+    });
   }
 }

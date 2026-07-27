@@ -142,6 +142,25 @@
           }
         </div>
       </div>
+
+      <div class="form-field">
+        <label for="taxOfficeId">ΔΟΥ</label>
+        @if (loadingTaxOffices()) {
+          <div class="loading">Φόρτωση ΔΟΥ...</div>
+        } @else {
+          <select id="taxOfficeId" formControlName="taxOfficeId" class="form-control">
+            <option [value]="">Επίλεξε ΔΟΥ</option>
+            @for (taxOffice of taxOffices; track taxOffice.id) {
+              <option [value]="taxOffice.id">{{ taxOffice.name }}</option>
+            }
+          </select>
+        }
+        <div class="error">
+          @if (customerForm.get('taxOfficeId')?.touched && customerForm.get('taxOfficeId')?.invalid) {
+            <small>Πρέπει να επιλέξεις ΔΟΥ</small>
+          }
+        </div>
+      </div>
     </div>
 
     <div class="action-buttons">

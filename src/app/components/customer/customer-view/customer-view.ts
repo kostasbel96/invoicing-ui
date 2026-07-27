@@ -26,6 +26,7 @@ export class CustomerView implements OnInit {
     { label: 'Περιοχή', key: 'region' },
     { label: 'Τ.Κ.', key: 'postalCode' },
     { label: 'Υπόλοιπο', key: 'balance' },
+    { label: 'ΔΟΥ', key: 'taxOffice' },
   ];
 
   constructor(
@@ -47,7 +48,8 @@ export class CustomerView implements OnInit {
     switch (key) {
       case 'region':
         return this.customer.region?.name;
-
+      case 'taxOffice':
+        return this.customer.taxOffice?.name;
       default:
         return this.customer[key as keyof Customer];
     }
