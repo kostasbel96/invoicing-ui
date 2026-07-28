@@ -14,13 +14,23 @@ export class CustomerService {
     return this.http.post<Customer>('https://localhost:5216/api/Customers/Add', customer);
   }
 
-  getCustomers(page: number, pageSize: number, search: string, sortField: string, sortOrder: string) : Observable<PaginatedResponse<Customer>> {
-    return this.http
-      .get<PaginatedResponse<Customer>>(
-        `https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}&search=${search ?? ""}&sortField=${sortField}&sortOrder=${sortOrder}`,);
+  getCustomers(
+    page: number,
+    pageSize: number,
+    search: string,
+    sortField: string,
+    sortOrder: string,
+  ): Observable<PaginatedResponse<Customer>> {
+    return this.http.get<PaginatedResponse<Customer>>(
+      `https://localhost:5216/api/Customers?page=${page}&pageSize=${pageSize}&search=${search ?? ''}&sortField=${sortField}&sortOrder=${sortOrder}`,
+    );
   }
 
   getCustomer(uuid: string): Observable<Customer> {
     return this.http.get<Customer>(`https://localhost:5216/api/Customers/by-uuid/${uuid}`);
+  }
+
+  updateCustomer(uuid: string, customer: CustomerInsert): Observable<Customer> {
+    return this.http.patch<Customer>(`https://localhost:5216/api/Customers/Update/${uuid}`, customer);
   }
 }

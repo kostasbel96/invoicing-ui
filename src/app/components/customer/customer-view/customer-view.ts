@@ -1,31 +1,34 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Customer } from '../../../models/customer.model';
 import { CustomerService } from '../../../services/customer-service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SpinnerUi } from '../../ui/spinner-ui/spinner-ui';
+import { Dialog } from 'primeng/dialog';
+import { CustomerForm } from '../customer-form/customer-form';
 
 @Component({
   selector: 'app-customer-view',
-  imports: [SpinnerUi],
+  imports: [SpinnerUi, Dialog, CustomerForm],
   templateUrl: './customer-view.html',
   styleUrl: './customer-view.scss',
 })
 export class CustomerView implements OnInit {
   customer: Customer;
+  dialogVisible = signal(false);
   uuid: string;
   loading = signal(true);
   protected readonly Object = Object;
   customerFields = [
-    { label: 'Όνομα', key: 'firstname' },
-    { label: 'Επώνυμο', key: 'lastname' },
-    { label: 'Επωνυμία', key: 'companyName' },
+    { label: 'ΟΝΟΜΑ', key: 'firstname' },
+    { label: 'ΕΠΩΝΥΜΟ', key: 'lastname' },
+    { label: 'ΕΠΩΝΥΜΙΑ', key: 'companyName' },
     { label: 'ΑΦΜ', key: 'vat' },
     { label: 'Email', key: 'email' },
-    { label: 'Τηλέφωνο', key: 'phone' },
-    { label: 'Διεύθυνση', key: 'address' },
-    { label: 'Περιοχή', key: 'region' },
+    { label: 'ΤΗΛΕΦΩΝΟ', key: 'phone' },
+    { label: 'ΔΙΕΥΘΥΝΣΗ', key: 'address' },
+    { label: 'ΠΕΡΙΟΧΗ', key: 'region' },
     { label: 'Τ.Κ.', key: 'postalCode' },
-    { label: 'Υπόλοιπο', key: 'balance' },
+    { label: 'ΥΠΟΛΟΙΠΟ', key: 'balance' },
     { label: 'ΔΟΥ', key: 'taxOffice' },
   ];
 
@@ -38,10 +41,7 @@ export class CustomerView implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.uuid = params.get('uuid');
     });
-    this.customerService.getCustomer(this.uuid).subscribe((customer) => {
-      this.customer = customer;
-      this.loading.set(false);
-    });
+    this.fetchCustomer();
   }
 
   getFieldValue(key: string) {
@@ -53,5 +53,21 @@ export class CustomerView implements OnInit {
       default:
         return this.customer[key as keyof Customer];
     }
+  }
+
+  edit(): void {
+    this.dialogVisible.set(true);
+  }
+
+  fetchCustomer(): void {
+    this.customerService.getCustomer(this.uuid).subscribe((customer) => {
+      this.customer = customer;
+      this.loading.set(false);
+    });
+  }
+
+  customerUpdated(): void {
+    this.fetchCustomer();
+    this.dialogVisible.set(false);
   }
 }

@@ -7,6 +7,7 @@ import { providePrimeNG } from 'primeng/config';
 import { definePreset } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 import { el } from 'primelocale/js/el.js';
+import { MessageService } from 'primeng/api';
 
 const BlueAura = definePreset(Aura, {
   semantic: {
@@ -32,6 +33,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimationsAsync(),
+    MessageService,
     providePrimeNG({
       theme: {
         preset: BlueAura,

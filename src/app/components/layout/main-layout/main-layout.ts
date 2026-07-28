@@ -4,11 +4,12 @@ import { TabService } from '../../../services/tab-service';
 import { AsyncPipe } from '@angular/common';
 import { Tab } from '../../../models/tab.model';
 import { Observable } from 'rxjs';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe],
+  imports: [RouterOutlet, AsyncPipe, Toast],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })

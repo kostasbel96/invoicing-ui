@@ -2,8 +2,10 @@
   <div class="form-grid">
 
     <div class="form-field">
-      <label for="firstname">Όνομα</label>
-      <input type="text" id="firstname" formControlName="firstname" class="form-control">
+      <div class="labeled-field">
+        <label for="firstname">Όνομα</label>
+        <input type="text" id="firstname" formControlName="firstname" class="form-control">
+      </div>
       <div class="error">
         @if (customerForm.get('firstname')?.touched && customerForm.get('firstname')?.invalid) {
 
@@ -24,8 +26,11 @@
 
     </div>
     <div class="form-field">
-      <label for="lastname">Επώνυμο</label>
-      <input type="text" id="lastname" formControlName="lastname" class="form-control">
+      <div class="labeled-field">
+        <label for="lastname">Επώνυμο</label>
+        <input type="text" id="lastname" formControlName="lastname" class="form-control">
+      </div>
+
       <div class="error">
         @if (customerForm.get('lastname')?.touched && customerForm.get('lastname')?.invalid) {
 
@@ -46,8 +51,11 @@
     </div>
 
     <div class="form-field">
-      <label for="email">Email</label>
-      <input type="email" id="email" formControlName="email" class="form-control">
+      <div class="labeled-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control">
+      </div>
+
       <div class="error">
         @if (customerForm.get('email')?.touched && customerForm.get('email')?.invalid) {
 
@@ -63,8 +71,11 @@
     </div>
 
     <div class="form-field">
-      <label for="phone">Τηλέφωνο</label>
-      <input type="text" id="phone" formControlName="phone" class="form-control">
+      <div class="labeled-field">
+        <label for="phone">Τηλέφωνο</label>
+        <input type="text" id="phone" formControlName="phone" class="form-control">
+      </div>
+
       <div class="error">
         @if (customerForm.get('phone')?.touched && customerForm.get('phone')?.invalid) {
 
@@ -81,8 +92,11 @@
     </div>
 
     <div class="form-field">
-      <label for="vat">ΑΦΜ</label>
-      <input type="text" id="vat" formControlName="vat" class="form-control">
+      <div class="labeled-field">
+        <label for="vat">ΑΦΜ</label>
+        <input type="text" id="vat" formControlName="vat" class="form-control">
+      </div>
+
       <div class="error">
         @if (customerForm.get('vat')?.touched && customerForm.get('vat')?.invalid) {
 
@@ -99,74 +113,93 @@
     </div>
 
     <div class="form-field">
-      <label for="companyName">Επωνυμία</label>
-      <input type="text" id="companyName" formControlName="companyName" class="form-control">
+      <div class="labeled-field">
+        <label for="companyName">Επωνυμία</label>
+        <input type="text" id="companyName" formControlName="companyName" class="form-control">
+      </div>
     </div>
 
-    <div class="address-group-form">
-      <div class="form-field">
+    <div class="form-field">
+      <div class="labeled-field">
         <label for="address">Διεύθυνση</label>
         <input type="text" id="address" formControlName="address" class="form-control">
-        <div class="error">
-          @if (customerForm.get('address')?.touched && customerForm.get('address')?.invalid) {
-            <small>Πρέπει να εισάγεις διεύθυνση</small>
-          }
-        </div>
       </div>
 
-      <div class="form-field">
-        <label for="postalCode">Ταχυδρομικός Κώδικας</label>
-        <input type="text" id="postalCode" formControlName="postalCode" class="form-control">
-        <div class="error">
-          @if (customerForm.get('postalCode')?.touched && customerForm.get('postalCode')?.invalid) {
-            <small>Πρέπει να είναι 5 ψηφία</small>
-          }
-        </div>
+      <div class="error">
+        @if (customerForm.get('address')?.touched && customerForm.get('address')?.invalid) {
+          <small>Πρέπει να εισάγεις διεύθυνση</small>
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="postalCode">Τ.Κ.</label>
+        <input type="text" formControlName="postalCode" class="form-control">
       </div>
 
-      <div class="form-field">
+      <div class="error">
+        @if (customerForm.get('postalCode')?.touched && customerForm.get('postalCode')?.invalid) {
+          <small>Πρέπει να είναι 5 ψηφία</small>
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
         <label for="regionId">Περιοχή</label>
         @if (loadingRegions()) {
           <div class="loading">Φόρτωση περιοχών...</div>
         } @else {
-          <select id="regionId" formControlName="regionId" class="form-control">
-            <option [value]="">Επίλεξε Περιοχή</option>
-            @for (region of regions; track region.id) {
-              <option [value]="region.id">{{ region.name }}</option>
-            }
-          </select>
+          <p-select
+            [options]="regions"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="regionId"
+            placeholder="Επίλεξε Περιοχή"
+            [filter]="true"
+            filterBy="name"
+            class="fix-width form-select">
+          </p-select>
         }
-        <div class="error">
-          @if (customerForm.get('regionId')?.touched && customerForm.get('regionId')?.invalid) {
-            <small>Πρέπει να επιλέξεις περιοχή</small>
-          }
-        </div>
       </div>
+      <div class="error">
+        @if (customerForm.get('regionId')?.touched && customerForm.get('regionId')?.invalid) {
+          <small>Πρέπει να επιλέξεις περιοχή</small>
+        }
+      </div>
+    </div>
 
-      <div class="form-field">
+    <div class="form-field">
+      <div class="labeled-field">
         <label for="taxOfficeId">ΔΟΥ</label>
         @if (loadingTaxOffices()) {
           <div class="loading">Φόρτωση ΔΟΥ...</div>
         } @else {
-          <select id="taxOfficeId" formControlName="taxOfficeId" class="form-control">
-            <option [value]="">Επίλεξε ΔΟΥ</option>
-            @for (taxOffice of taxOffices; track taxOffice.id) {
-              <option [value]="taxOffice.id">{{ taxOffice.name }}</option>
-            }
-          </select>
+          <p-select
+            [options]="taxOffices"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="taxOfficeId"
+            [filter]="true"
+            filterBy="name"
+            placeholder="Επιλέξτε ΔΟΥ"
+            class="fix-width form-select">
+          </p-select>
         }
-        <div class="error">
-          @if (customerForm.get('taxOfficeId')?.touched && customerForm.get('taxOfficeId')?.invalid) {
-            <small>Πρέπει να επιλέξεις ΔΟΥ</small>
-          }
-        </div>
+      </div>
+      <div class="error">
+        @if (customerForm.get('taxOfficeId')?.touched && customerForm.get('taxOfficeId')?.invalid) {
+          <small>Πρέπει να επιλέξεις ΔΟΥ</small>
+        }
       </div>
     </div>
 
-    <div class="action-buttons">
-      <button type="submit" class="button-save" [disabled]="customerForm.invalid">Αποθήκευση</button>
-      <button type="button" class="button-reset" (click)="onReset()">Επαναφορά</button>
-    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button type="submit" class="button-save" [disabled]="customerForm.invalid">Αποθήκευση</button>
+    <button type="button" class="button-reset" (click)="onReset()">Επαναφορά</button>
   </div>
 
 </form>

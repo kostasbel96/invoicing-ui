@@ -1,20 +1,26 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, input, Input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CustomerInsert } from '../../../models/customer.model';
+import { Customer, CustomerInsert } from '../../../models/customer.model';
 import { CustomerService } from '../../../services/customer-service';
 import { Region } from '../../../models/region.model';
 import { RegionService } from '../../../services/region-service';
 import { TaxOffice } from '../../../models/taxOffice.model';
 import { TaxOfficeService } from '../../../services/tax-office-service';
+import { Select } from 'primeng/select';
+import { MessageService } from 'primeng/api';
+import { ERROR_MESSAGES } from '../../../core/constants/error-messages';
 
 @Component({
   selector: 'app-customer-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Select],
   standalone: true,
   templateUrl: './customer-form.html',
   styleUrl: './customer-form.scss',
 })
 export class CustomerForm implements OnInit {
+  @Input() customer?: Customer;
+  @Input() mode: string = 'create';
+  closed = output<void>();
   regions: Region[] = [];
   taxOffices: TaxOffice[] = [];
   loadingRegions = signal(true);
@@ -37,21 +43,10 @@ export class CustomerForm implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly customerService: CustomerService,
     private readonly regionService: RegionService,
-    private readonly taxOfficeService: TaxOfficeService
-  ) {
-    this.customerForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      email: ['', [Validators.email, Validators.required]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10,}$/)]],
-      address: ['', [Validators.required]],
-      postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]],
-      vat: ['', [Validators.required, Validators.pattern(/^\d{9,10}$/)]],
-      companyName: '',
-      regionId: [1, [Validators.required]],
-      taxOfficeId: [1, [Validators.required]],
-    });
-  }
+    private readonly taxOfficeService: TaxOfficeService,
+    private readonly messageService: MessageService,
+  ) {}
+
   ngOnInit(): void {
     this.regionService.getRegions().subscribe((regions) => {
       this.regions = regions.slice().sort((a, b) => a.name.localeCompare(b.name));
@@ -60,7 +55,25 @@ export class CustomerForm implements OnInit {
     this.taxOfficeService.getTaxOffices().subscribe((taxOffices) => {
       this.taxOffices = taxOffices.slice().sort((a, b) => a.name.localeCompare(b.name));
       this.loadingTaxOffices.set(false);
-    })
+    });
+    this.customerForm = this.formBuilder.group({
+      firstname: [
+        this.customer?.firstname,
+        [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
+      ],
+      lastname: [
+        this.customer?.lastname,
+        [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
+      ],
+      email: [this.customer?.email, [Validators.email, Validators.required]],
+      phone: [this.customer?.phone, [Validators.required, Validators.pattern(/^\d{10,}$/)]],
+      address: [this.customer?.address, [Validators.required]],
+      postalCode: [this.customer?.postalCode, [Validators.required, Validators.pattern(/^\d{5}$/)]],
+      vat: [this.customer?.vat, [Validators.required, Validators.pattern(/^\d{9,10}$/)]],
+      companyName: this.customer?.companyName,
+      regionId: [this.customer?.region.id, [Validators.required]],
+      taxOfficeId: [this.customer?.taxOffice.id, [Validators.required]],
+    });
   }
 
   onSubmit() {
@@ -70,15 +83,50 @@ export class CustomerForm implements OnInit {
       regionId: Number(this.customerForm.value.regionId),
       taxOfficeId: Number(this.customerForm.value.taxOfficeId),
     };
-    this.customerService.addCustomer(this.customerToSubmit).subscribe({
-      next: (response) => {
-        console.log('Customer added successfully:', response);
-        this.onReset();
-      },
-      error: (error) => {
-        console.error('Error adding customer:', error);
-      },
-    });
+
+    switch (this.mode) {
+      case 'create':
+        this.customerService.addCustomer(this.customerToSubmit).subscribe({
+          next: (customer) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Επιτυχία',
+              detail: `Ο πελάτης ${customer.firstname} ${customer.lastname} αποθηκεύτηκε επιτυχώς`,
+            });
+            this.onReset();
+          },
+          error: (error) => {
+            console.error('Error adding customer:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Σφάλμα',
+              detail: ERROR_MESSAGES[error.error.code],
+            });
+          },
+        });
+        break;
+
+      case 'update':
+        this.customerService.updateCustomer(this.customer.uuid, this.customerToSubmit).subscribe({
+          next: (customer) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Επιτυχία',
+              detail: `Ο πελάτης ${customer.firstname} ${customer.lastname} αποθηκεύτηκε επιτυχώς`,
+            });
+            this.closed.emit();
+          },
+          error: (error) => {
+            console.error('Error adding customer:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Σφάλμα',
+              detail: ERROR_MESSAGES[error.error.code],
+            });
+          },
+        });
+        break;
+    }
   }
 
   onReset() {
