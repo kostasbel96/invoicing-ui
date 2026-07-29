@@ -33,4 +33,8 @@ export class CustomerService {
   updateCustomer(uuid: string, customer: CustomerInsert): Observable<Customer> {
     return this.http.patch<Customer>(`https://localhost:5216/api/Customers/Update/${uuid}`, customer);
   }
+
+  deleteCustomer(uuid: string): Observable<boolean> {
+    return this.http.delete<boolean>(`https://localhost:5216/api/Customers/${uuid}`);
+  }
 }

@@ -12,10 +12,13 @@
       </div>
 
       <div class="actions">
-        <button class="edit-button" (click)="edit()">
-          <i class="pi pi-pencil"></i>
-          <span>Επεξεργασία</span>
-        </button>
+        <app-edit-button
+          (edit)="edit()"
+        />
+
+        <app-delete-button
+          (delete)="delete()"
+        />
       </div>
     </div>
 
@@ -43,7 +46,7 @@
   </div>
   <p-dialog
     header="Επεξεργασία Πελάτη"
-    [(visible)]="dialogVisible"
+    [(visible)]="updateDialogVisible"
     [modal]="true"
     [style]="{ width: '60rem' }"
     [closable]="true">
@@ -54,5 +57,32 @@
       (closed)="customerUpdated()">
     </app-customer-form>
 
+  </p-dialog>
+
+  <p-dialog
+    header="Διαγραφή Πελάτη"
+    [(visible)]="deleteDialogVisible"
+    [modal]="true"
+    [style]="{ width: '60rem' }"
+    [closable]="true">
+    <div class="delete-dialog">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+
+      <h3>Επιβεβαίωση διαγραφής</h3>
+
+      <p>
+        Είστε βέβαιοι ότι θέλετε να διαγράψετε τον πελάτη
+        <strong>{{ customer?.firstname }} {{customer?.lastname}}</strong>;
+      </p>
+
+      <p class="warning-text">
+        Η ενέργεια αυτή δεν μπορεί να αναιρεθεί.
+      </p>
+
+      <div class="dialog-actions">
+        <app-cancel-button (cancelAction)="deleteDialogVisible.set(false)"/>
+        <app-delete-button (delete)="confirmDelete()"/>
+      </div>
+    </div>
   </p-dialog>
 }

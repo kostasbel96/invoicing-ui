@@ -1,20 +1,26 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Customer } from '../../../models/customer.model';
 import { CustomerService } from '../../../services/customer-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerUi } from '../../ui/spinner-ui/spinner-ui';
 import { Dialog } from 'primeng/dialog';
 import { CustomerForm } from '../customer-form/customer-form';
+import { EditButton } from '../../ui/action-buttons-ui/edit-button/edit-button';
+import { DeleteButton } from '../../ui/action-buttons-ui/delete-button/delete-button';
+import { MessageService } from 'primeng/api';
+import { ERROR_MESSAGES } from '../../../core/constants/error-messages';
+import { CancelButton } from '../../ui/action-buttons-ui/cancel-button/cancel-button';
 
 @Component({
   selector: 'app-customer-view',
-  imports: [SpinnerUi, Dialog, CustomerForm],
+  imports: [SpinnerUi, Dialog, CustomerForm, EditButton, DeleteButton, CancelButton],
   templateUrl: './customer-view.html',
   styleUrl: './customer-view.scss',
 })
 export class CustomerView implements OnInit {
   customer: Customer;
-  dialogVisible = signal(false);
+  updateDialogVisible = signal(false);
+  deleteDialogVisible = signal(false);
   uuid: string;
   loading = signal(true);
   protected readonly Object = Object;
@@ -35,6 +41,8 @@ export class CustomerView implements OnInit {
   constructor(
     private readonly customerService: CustomerService,
     private readonly route: ActivatedRoute,
+    private readonly messageService: MessageService,
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +64,11 @@ export class CustomerView implements OnInit {
   }
 
   edit(): void {
-    this.dialogVisible.set(true);
+    this.updateDialogVisible.set(true);
+  }
+
+  delete(): void {
+    this.deleteDialogVisible.set(true);
   }
 
   fetchCustomer(): void {
@@ -68,6 +80,29 @@ export class CustomerView implements OnInit {
 
   customerUpdated(): void {
     this.fetchCustomer();
-    this.dialogVisible.set(false);
+    this.updateDialogVisible.set(false);
+  }
+
+  confirmDelete(): void {
+    this.customerService.deleteCustomer(this.customer.uuid).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Επιτυχία',
+          detail: `Ο πελάτης ${this.customer.firstname} ${this.customer.lastname} διαγράφηκε επιτυχώς`,
+        });
+        this.deleteDialogVisible.set(false);
+        this.router.navigate(['/customers']);
+      },
+      error: (error) => {
+        console.error('Error deleting customer:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Σφάλμα',
+          detail: `Ο πελάτης ${this.customer.firstname} ${this.customer.lastname} δεν διαγράφηκε`,
+        });
+        this.deleteDialogVisible.set(false);
+      },
+    });
   }
 }
