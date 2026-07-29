@@ -13,7 +13,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 })
 export class CustomerTable implements OnInit {
   columns = [
-    { field: 'id', header: 'Α/Α', width: 5, sortable: true },
+    { field: 'id', header: 'Α/Α', width: 5, sortable: false },
     { field: 'firstname', header: 'Όνομα', width: 9, sortable: true },
     { field: 'lastname', header: 'Επώνυμο', width: 10, sortable: true },
     { field: 'email', header: 'Email', width: 10, sortable: false },
