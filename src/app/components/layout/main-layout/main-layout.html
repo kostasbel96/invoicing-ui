@@ -38,7 +38,25 @@
       </div>
     </div>
     <a><i class="pi pi-receipt"></i><span class="label">Παραστατικά</span></a>
-    <a><i class="pi pi-box"></i><span class="label">Προιόντα</span></a>
+    <div class="menu-item">
+      <a>
+        <i class="pi pi-box"></i>
+        <span class="label">Προιόντα</span>
+      </a>
+      <div class="submenu">
+        <div>
+          <a [class.active]="isActive('/products/new', (activeTab$ | async))" (click)="openTab('newProduct', '/products/new')">
+            <span class="label-submenu">Νέο Προιόν/Υπηρεσία</span>
+          </a>
+        </div>
+
+        <div>
+          <a [class.active]="isActive('/products', (activeTab$ | async))" (click)="openTab('products', '/products')">
+            <span class="label-submenu">Λίστα Προιόντων/Υπηρεσιών</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </aside>
 
   <div class="content">

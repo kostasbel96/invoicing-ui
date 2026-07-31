@@ -1,1 +1,159 @@
-<p>product-form works!</p>
+<form [formGroup]="productForm">
+
+  <div class="form-grid">
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="itemTypeId">Είδος</label>
+        <p-select
+          [options]="itemTypes"
+          optionLabel="name"
+          optionValue="id"
+          formControlName="itemTypeId"
+          placeholder="Επίλεξε Τύπο"
+          [filter]="true"
+          filterBy="name"
+          class="form-select">
+        </p-select>
+      </div>
+      <div class="error">
+        @if (productForm.get('itemTypeId')?.touched && productForm.get('itemTypeId')?.invalid) {
+          <small>Πρέπει να επιλέξεις είδος</small>
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="name">Όνομα</label>
+        <input type="text" id="name" formControlName="name" class="form-control">
+      </div>
+      <div class="error">
+        @if (productForm.get('name')?.touched && productForm.get('name')?.invalid) {
+
+          @if (productForm.get('name')?.errors?.['required']) {
+            <small>Το όνομα είναι υποχρεωτικό</small>
+          }
+
+          @if (productForm.get('name')?.errors?.['minlength']) {
+            <small>Τουλάχιστον 2 χαρακτήρες</small>
+          }
+
+          @if (productForm.get('name')?.errors?.['maxlength']) {
+            <small>Μέχρι 50 χαρακτήρες</small>
+          }
+
+        }
+      </div>
+
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="description">Περιγραφή</label>
+        <input type="text" id="description" formControlName="description" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="price">Τιμή</label>
+        <input type="text" id="price" formControlName="price" class="form-control">
+      </div>
+      <div class="error">
+        @if (productForm.get('price')?.touched && productForm.get('price')?.invalid) {
+
+          @if (productForm.get('price')?.errors?.['required']) {
+            <small>Η τιμή είναι υποχρεωτική</small>
+          }
+
+          @if (productForm.get('price')?.errors?.['pattern']) {
+            <small>Πρέπει να είναι αριθμός</small>
+          }
+
+          @if (productForm.get('price')?.errors?.['min']) {
+            <small>Η ελάχιστη επιτρεπόμενη τιμή είναι 0.01</small>
+          }
+
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="quantity">Ποσότητα</label>
+        <input type="text" id="quantity" formControlName="quantity" class="form-control">
+      </div>
+      <div class="error">
+        @if (productForm.get('quantity')?.touched && productForm.get('quantity')?.invalid) {
+
+          @if (productForm.get('quantity')?.errors?.['required']) {
+            <small>Η ποσότητα είναι υποχρεωτική</small>
+          }
+
+          @if (productForm.get('quantity')?.errors?.['pattern']) {
+            <small>Πρέπει να είναι αριθμός</small>
+          }
+
+          @if (productForm.get('quantity')?.errors?.['min']) {
+            <small>Η ελάχιστη επιτρεπόμενη ποσότητα είναι 1</small>
+          }
+
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="vatRateId">ΦΠΑ</label>
+        @if (loadingVatRates()) {
+          <div class="loading">Φόρτωση ΦΠΑ...</div>
+        } @else {
+          <p-select
+            [options]="vatRates"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="vatRateId"
+            placeholder="Επίλεξε ΦΠΑ"
+            [filter]="true"
+            filterBy="name"
+            class="form-select">
+          </p-select>
+        }
+      </div>
+      <div class="error">
+        @if (productForm.get('vatRateId')?.touched && productForm.get('vatRateId')?.invalid) {
+          <small>Πρέπει να επιλέξεις ΦΠΑ</small>
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="unitId">Μ.Μ</label>
+        <p-select
+          [options]="units"
+          optionLabel="name"
+          optionValue="id"
+          formControlName="unitId"
+          placeholder="Επίλεξε Μονάδα Μέτρησης"
+          [filter]="true"
+          filterBy="name"
+          class="form-select">
+        </p-select>
+      </div>
+      <div class="error">
+        @if (productForm.get('unitId')?.touched && productForm.get('unitId')?.invalid) {
+          <small>Πρέπει να επιλέξεις μονάδα μέτρησης</small>
+        }
+      </div>
+    </div>
+
+  </div>
+
+  <div class="action-buttons">
+    <app-save-button [currentForm]="productForm" (saveAction)="onSubmit()"/>
+    <app-reset-button (resetAction)="onReset()"/>
+  </div>
+
+</form>

@@ -10,7 +10,6 @@ import { Select } from 'primeng/select';
 import { MessageService } from 'primeng/api';
 import { ERROR_MESSAGES } from '../../../core/constants/error-messages';
 import { SaveButton } from '../../ui/action-buttons-ui/save-button/save-button';
-import { submit } from '@angular/forms/signals';
 import { ResetButton } from '../../ui/action-buttons-ui/reset-button/reset-button';
 
 @Component({
@@ -147,5 +146,4 @@ export class CustomerForm implements OnInit {
     });
   }
 
-  protected readonly submit = submit;
 }

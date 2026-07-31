@@ -4,6 +4,7 @@ import { MainLayout } from './components/layout/main-layout/main-layout';
 import { Dashboard } from './components/dashboard/dashboard/dashboard';
 import { CustomerTable } from './components/customer/customer-table/customer-table/customer-table';
 import { CustomerView } from './components/customer/customer-view/customer-view';
+import { ProductForm } from './components/product/product-form/product-form';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,23 @@ export const routes: Routes = [
             path: ':uuid',
             component: CustomerView,
           },
+        ],
+      },
+      {
+        path: 'products',
+        children: [
+          // {
+          //   path: '',
+          //   component: CustomerTable,
+          // },
+          {
+            path: 'new',
+            component: ProductForm,
+          },
+          // {
+          //   path: ':uuid',
+          //   component: CustomerView,
+          // },
         ],
       },
 
