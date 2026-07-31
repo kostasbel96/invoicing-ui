@@ -4,7 +4,7 @@
 
     <div class="form-field">
       <div class="labeled-field">
-        <label for="itemTypeId">Είδος</label>
+        <label for="itemTypeId">Τύπος</label>
         <p-select
           [options]="itemTypes"
           optionLabel="name"
@@ -18,7 +18,7 @@
       </div>
       <div class="error">
         @if (productForm.get('itemTypeId')?.touched && productForm.get('itemTypeId')?.invalid) {
-          <small>Πρέπει να επιλέξεις είδος</small>
+          <small>Πρέπει να επιλέξεις τύπο</small>
         }
       </div>
     </div>
