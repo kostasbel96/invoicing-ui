@@ -9,7 +9,6 @@ import { SelectModule } from 'primeng/select';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ViewRowButton } from '../action-buttons-ui/view/view-row-button/view-row-button';
-import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
   selector: 'app-table-ui',
@@ -39,12 +38,6 @@ export class TableUi<T> {
   @Output() lazyLoad = new EventEmitter<TableLazyLoadEvent>();
   @Output() globalSearch = new EventEmitter<string>();
   @ViewChild('dt2') table!: Table;
-
-  activityValues: number[] = [0, 100];
-
-  clear(table: Table) {
-    table.clear();
-  }
 
   resetPage() {
     this.table.first = 0;

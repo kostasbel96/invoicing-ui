@@ -1,4 +1,4 @@
-import { Component, input, Input, OnInit, output, signal } from '@angular/core';
+import { Component, Input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Customer, CustomerInsert } from '../../../models/customer.model';
 import { CustomerService } from '../../../services/customer-service';
@@ -9,10 +9,13 @@ import { TaxOfficeService } from '../../../services/tax-office-service';
 import { Select } from 'primeng/select';
 import { MessageService } from 'primeng/api';
 import { ERROR_MESSAGES } from '../../../core/constants/error-messages';
+import { SaveButton } from '../../ui/action-buttons-ui/save-button/save-button';
+import { submit } from '@angular/forms/signals';
+import { ResetButton } from '../../ui/action-buttons-ui/reset-button/reset-button';
 
 @Component({
   selector: 'app-customer-form',
-  imports: [ReactiveFormsModule, Select],
+  imports: [ReactiveFormsModule, Select, SaveButton, ResetButton],
   standalone: true,
   templateUrl: './customer-form.html',
   styleUrl: './customer-form.scss',
@@ -143,4 +146,6 @@ export class CustomerForm implements OnInit {
       taxOfficeId: 1,
     });
   }
+
+  protected readonly submit = submit;
 }

@@ -15,3 +15,113 @@ html, body {
   --surface-card: #ffffff;
   --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
+
+form {
+  margin: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+
+  .labeled-field {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+
+    label {
+      display: flex;
+      align-items: center;
+
+      width: 9rem;
+      min-width: 9rem;
+
+      font-size: 12px;
+      font-weight: 600;
+      color: #4b5563;
+      letter-spacing: 0.2px;
+
+      padding: 5px 10px;
+      background-color: #d5deff;
+
+      border: 1px solid #d1d5db;
+      border-right: none;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .form-control,
+    .form-select {
+      flex: 1;
+
+      height: 30px;
+      color: #1f2937;
+      background-color: #fff;
+
+      border: 1px solid #d1d5db;
+      border-radius: 0 4px 4px 0;
+
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+      &:hover {
+        border-color: #9ca3af;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+      }
+
+      &:disabled {
+        background-color: #f3f4f6;
+        color: #9ca3af;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .error {
+    color: red;
+    min-height: 17px;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+}
+
+.form-field.full {
+  grid-column: span 2;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+
+  button {
+    height: 36px;
+    padding: 0 14px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    border-radius: 4px;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+

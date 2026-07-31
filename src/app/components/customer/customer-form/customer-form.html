@@ -1,4 +1,4 @@
-<form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="customerForm">
   <div class="form-grid">
 
     <div class="form-field">
@@ -198,8 +198,8 @@
   </div>
 
   <div class="action-buttons">
-    <button type="submit" class="button-save" [disabled]="customerForm.invalid">Αποθήκευση</button>
-    <button type="button" class="button-reset" (click)="onReset()">Επαναφορά</button>
+    <app-save-button [currentForm]="customerForm" (saveAction)="onSubmit()"/>
+    <app-reset-button (resetAction)="onReset()"/>
   </div>
 
 </form>

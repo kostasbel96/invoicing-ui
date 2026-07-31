@@ -35,7 +35,7 @@ export class CustomerTable implements OnInit {
     first: 0,
     rows: this.rows,
   };
-  @ViewChild(TableUi) table!: TableUi<Customer>;
+  @ViewChild(TableUi) table: TableUi<Customer>;
 
   constructor(private readonly customerService: CustomerService) {}
 
