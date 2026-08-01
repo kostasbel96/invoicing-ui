@@ -105,31 +105,6 @@
 
     <div class="form-field">
       <div class="labeled-field">
-        <label for="vatRateId">ΦΠΑ</label>
-        @if (loadingVatRates()) {
-          <div class="loading">Φόρτωση ΦΠΑ...</div>
-        } @else {
-          <p-select
-            [options]="vatRates"
-            optionLabel="name"
-            optionValue="id"
-            formControlName="vatRateId"
-            placeholder="Επίλεξε ΦΠΑ"
-            [filter]="true"
-            filterBy="name"
-            class="form-select">
-          </p-select>
-        }
-      </div>
-      <div class="error">
-        @if (productForm.get('vatRateId')?.touched && productForm.get('vatRateId')?.invalid) {
-          <small>Πρέπει να επιλέξεις ΦΠΑ</small>
-        }
-      </div>
-    </div>
-
-    <div class="form-field">
-      <div class="labeled-field">
         <label for="unitId">Μ.Μ</label>
         <p-select
           [options]="units"

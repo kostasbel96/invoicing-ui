@@ -1,5 +1,3 @@
-import { VatRate } from './vatRate.model';
-
 export interface Product {
   id: number;
   uuid: string;
@@ -9,7 +7,6 @@ export interface Product {
   description: string;
   unitId: number;
   quantity: number;
-  vatRate: VatRate;
 }
 
 export interface ProductInsert {
@@ -19,7 +16,6 @@ export interface ProductInsert {
   description: string;
   unitId: number;
   quantity: number;
-  vatRateId: number;
 }
 
 export interface Unit {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, output, signal } from '@angular/core';
+import { Component, Input, OnInit, output} from '@angular/core';
 import { ResetButton } from '../../ui/action-buttons-ui/reset-button/reset-button';
 import { SaveButton } from '../../ui/action-buttons-ui/save-button/save-button';
 import {
@@ -12,8 +12,6 @@ import {
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ProductService } from '../../../services/product-service';
-import { VatRateService } from '../../../services/vat-rate-service';
-import { VatRate } from '../../../models/vatRate.model';
 import { ERROR_MESSAGES } from '../../../core/constants/error-messages';
 import { Select } from 'primeng/select';
 
@@ -26,8 +24,6 @@ import { Select } from 'primeng/select';
 export class ProductForm implements OnInit {
   @Input() product?: Product;
   @Input() mode: string = 'create';
-  loadingVatRates = signal(true);
-  vatRates: VatRate[] = [];
   itemTypes: ItemType[] = productTypes;
   units: Unit[] = productUnits;
   closed = output<void>();
@@ -39,21 +35,15 @@ export class ProductForm implements OnInit {
     quantity: 1,
     unitId: 0,
     itemTypeId: 0,
-    vatRateId: 1,
   };
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly productService: ProductService,
-    private readonly vatRateService: VatRateService,
     private readonly messageService: MessageService,
   ) {}
 
   ngOnInit() {
-    this.vatRateService.getVatRates().subscribe((vatRates) => {
-      this.vatRates = vatRates.slice().sort((a, b) => a.name.localeCompare(b.name));
-      this.loadingVatRates.set(false);
-    });
     this.productForm = this.formBuilder.group({
       name: [
         this.product?.name,
@@ -62,15 +52,14 @@ export class ProductForm implements OnInit {
       description: [this.product?.description, [Validators.maxLength(50)]],
       price: [
         this.product?.price,
-        [Validators.required, Validators.min(0.01), Validators.pattern(/^\d+(\.\d+)?$/)],
+        [Validators.required, Validators.min(0.01), Validators.pattern(/^\d+([.,]\d{1,2})?$/)],
       ],
       quantity: [
         this.product?.quantity,
-        [Validators.required, Validators.min(1), Validators.pattern(/^\d+(\.\d+)?$/)],
+        [Validators.required, Validators.min(1), Validators.pattern(/^[1-9]\d*$/)],
       ],
       unitId: [this.product?.unitId, [Validators.required]],
       itemTypeId: [this.product?.itemTypeId, [Validators.required]],
-      vatRateId: [this.product?.vatRate.id, [Validators.required]],
     });
   }
 
@@ -78,8 +67,10 @@ export class ProductForm implements OnInit {
     if (this.productForm.invalid) return;
     this.productToSubmit = {
       ...this.productForm.value,
-      vatRateId: Number(this.productForm.value.vatRateId),
+      quantity: Number(this.productForm.value.quantity),
+      price: Number(this.productForm.value.price.replaceAll(',', '.')),
       itemTypeId: Number(this.productForm.value.itemTypeId),
+      unitId: Number(this.productForm.value.unitId),
     };
 
     switch (this.mode) {
@@ -135,7 +126,6 @@ export class ProductForm implements OnInit {
       quantity: 1,
       unitId: 0,
       itemTypeId: 0,
-      vatRateId: 1,
     });
   }
 }
