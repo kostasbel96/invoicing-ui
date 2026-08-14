@@ -46,13 +46,13 @@
       <div class="submenu">
         <div>
           <a [class.active]="isActive('/products/new', (activeTab$ | async))" (click)="openTab('newProduct', '/products/new')">
-            <span class="label-submenu">Νέο Προιόν/Υπηρεσία</span>
+            <span class="label-submenu">Νέο Προιόν</span>
           </a>
         </div>
 
         <div>
           <a [class.active]="isActive('/products', (activeTab$ | async))" (click)="openTab('products', '/products')">
-            <span class="label-submenu">Λίστα Προιόντων/Υπηρεσιών</span>
+            <span class="label-submenu">Λίστα Προιόντων</span>
           </a>
         </div>
       </div>

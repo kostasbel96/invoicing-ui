@@ -5,16 +5,15 @@ export interface Product {
   price: number;
   itemTypeId: number;
   description: string;
-  unitId: number;
+  unit: number;
   quantity: number;
 }
 
 export interface ProductInsert {
   name: string;
   price: number;
-  itemTypeId: number;
   description: string;
-  unitId: number;
+  unit: number;
   quantity: number;
 }
 
@@ -39,18 +38,14 @@ export const productUnits: Unit[] = [
   },
   {
     id: 2,
-    name: 'ημέρα'
-  },
-  {
-    id: 3,
     name: 'κγρ.'
   },
   {
-    id: 4,
+    id: 3,
     name: 'μ.'
   },
   {
-    id: 5,
+    id: 4,
     name: 'λτ.'
   }
 ];

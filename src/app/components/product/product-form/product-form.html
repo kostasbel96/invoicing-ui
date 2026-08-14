@@ -4,27 +4,6 @@
 
     <div class="form-field">
       <div class="labeled-field">
-        <label for="itemTypeId">Τύπος</label>
-        <p-select
-          [options]="itemTypes"
-          optionLabel="name"
-          optionValue="id"
-          formControlName="itemTypeId"
-          placeholder="Επίλεξε Τύπο"
-          [filter]="true"
-          filterBy="name"
-          class="form-select">
-        </p-select>
-      </div>
-      <div class="error">
-        @if (productForm.get('itemTypeId')?.touched && productForm.get('itemTypeId')?.invalid) {
-          <small>Πρέπει να επιλέξεις τύπο</small>
-        }
-      </div>
-    </div>
-
-    <div class="form-field">
-      <div class="labeled-field">
         <label for="name">Όνομα</label>
         <input type="text" id="name" formControlName="name" class="form-control">
       </div>
@@ -58,7 +37,7 @@
     <div class="form-field">
       <div class="labeled-field">
         <label for="price">Τιμή</label>
-        <input type="text" id="price" formControlName="price" class="form-control">
+        <input type="number" min="0" id="price" formControlName="price" class="form-control" inputmode="decimal">
       </div>
       <div class="error">
         @if (productForm.get('price')?.touched && productForm.get('price')?.invalid) {
@@ -82,7 +61,7 @@
     <div class="form-field">
       <div class="labeled-field">
         <label for="quantity">Ποσότητα</label>
-        <input type="text" id="quantity" formControlName="quantity" class="form-control">
+        <input type="number" min="0" id="quantity" formControlName="quantity" class="form-control" inputmode="decimal">
       </div>
       <div class="error">
         @if (productForm.get('quantity')?.touched && productForm.get('quantity')?.invalid) {
@@ -96,7 +75,7 @@
           }
 
           @if (productForm.get('quantity')?.errors?.['min']) {
-            <small>Η ελάχιστη επιτρεπόμενη ποσότητα είναι 1</small>
+            <small>Η ελάχιστη επιτρεπόμενη ποσότητα είναι 0.01</small>
           }
 
         }
@@ -105,12 +84,12 @@
 
     <div class="form-field">
       <div class="labeled-field">
-        <label for="unitId">Μ.Μ</label>
+        <label for="unit">Μ.Μ</label>
         <p-select
           [options]="units"
           optionLabel="name"
           optionValue="id"
-          formControlName="unitId"
+          formControlName="unit"
           placeholder="Επίλεξε Μονάδα Μέτρησης"
           [filter]="true"
           filterBy="name"
@@ -118,7 +97,7 @@
         </p-select>
       </div>
       <div class="error">
-        @if (productForm.get('unitId')?.touched && productForm.get('unitId')?.invalid) {
+        @if (productForm.get('unit')?.touched && productForm.get('unit')?.invalid) {
           <small>Πρέπει να επιλέξεις μονάδα μέτρησης</small>
         }
       </div>

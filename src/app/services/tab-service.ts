@@ -66,7 +66,7 @@ export class TabService {
       invoices: 'Παραστατικά',
       products: 'Προϊόντα',
       customer: 'Πληροφορίες Πελάτη',
-      newProduct: 'Νέο Προιόν/Υπηρεσία'
+      newProduct: 'Νέο Προιόν'
     };
 
     return map[id] ?? id;

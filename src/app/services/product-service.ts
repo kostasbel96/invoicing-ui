@@ -9,7 +9,7 @@ import { Product, ProductInsert } from '../models/product.model';
   providedIn: 'root',
 })
 export class ProductService {
-  endpoint = `${environment.apiUrl}/Items`;
+  endpoint = `${environment.apiUrl}/Products`;
   constructor(private readonly http: HttpClient) {}
 
   addProduct(product: ProductInsert): Observable<Product> {

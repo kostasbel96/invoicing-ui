@@ -2,10 +2,8 @@ import { Component, Input, OnInit, output} from '@angular/core';
 import { ResetButton } from '../../ui/action-buttons-ui/reset-button/reset-button';
 import { SaveButton } from '../../ui/action-buttons-ui/save-button/save-button';
 import {
-  ItemType,
   Product,
   ProductInsert,
-  productTypes,
   productUnits,
   Unit,
 } from '../../../models/product.model';
@@ -24,7 +22,6 @@ import { Select } from 'primeng/select';
 export class ProductForm implements OnInit {
   @Input() product?: Product;
   @Input() mode: string = 'create';
-  itemTypes: ItemType[] = productTypes;
   units: Unit[] = productUnits;
   closed = output<void>();
   productForm: FormGroup;
@@ -33,8 +30,7 @@ export class ProductForm implements OnInit {
     description: '',
     price: 1,
     quantity: 1,
-    unitId: 0,
-    itemTypeId: 0,
+    unit: 0,
   };
 
   constructor(
@@ -52,14 +48,13 @@ export class ProductForm implements OnInit {
       description: [this.product?.description, [Validators.maxLength(50)]],
       price: [
         this.product?.price,
-        [Validators.required, Validators.min(0.01), Validators.pattern(/^\d+([.,]\d{1,2})?$/)],
+        [Validators.required, Validators.pattern(/^\d+([.,]\d{1,2})?$/)],
       ],
       quantity: [
         this.product?.quantity,
-        [Validators.required, Validators.min(1), Validators.pattern(/^[1-9]\d*$/)],
+        [Validators.required, Validators.pattern(/^\d+([.,]\d{1,2})?$/)],
       ],
-      unitId: [this.product?.unitId, [Validators.required]],
-      itemTypeId: [this.product?.itemTypeId, [Validators.required]],
+      unit: [this.product?.unit, [Validators.required]],
     });
   }
 
@@ -67,10 +62,9 @@ export class ProductForm implements OnInit {
     if (this.productForm.invalid) return;
     this.productToSubmit = {
       ...this.productForm.value,
-      quantity: Number(this.productForm.value.quantity),
-      price: Number(this.productForm.value.price.replaceAll(',', '.')),
-      itemTypeId: Number(this.productForm.value.itemTypeId),
-      unitId: Number(this.productForm.value.unitId),
+      quantity: Number(String(this.productForm.value.quantity).replaceAll(',', '.')),
+      price: Number(String(this.productForm.value.price).replaceAll(',', '.')),
+      unit: Number(this.productForm.value.unit),
     };
 
     switch (this.mode) {
@@ -124,8 +118,7 @@ export class ProductForm implements OnInit {
       description: '',
       price: 1,
       quantity: 1,
-      unitId: 0,
-      itemTypeId: 0,
+      unit: 0,
     });
   }
 }
