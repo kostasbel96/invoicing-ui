@@ -8,8 +8,8 @@ import { CustomerForm } from '../customer-form/customer-form';
 import { EditButton } from '../../ui/action-buttons-ui/edit-button/edit-button';
 import { DeleteButton } from '../../ui/action-buttons-ui/delete-button/delete-button';
 import { MessageService } from 'primeng/api';
-import { ERROR_MESSAGES } from '../../../core/constants/error-messages';
 import { CancelButton } from '../../ui/action-buttons-ui/cancel-button/cancel-button';
+import { TabService } from '../../../services/tab-service';
 
 @Component({
   selector: 'app-customer-view',
@@ -43,6 +43,7 @@ export class CustomerView implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly messageService: MessageService,
     private readonly router: Router,
+    private readonly tabService: TabService
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +93,7 @@ export class CustomerView implements OnInit {
           detail: `Ο πελάτης ${this.customer.firstname} ${this.customer.lastname} διαγράφηκε επιτυχώς`,
         });
         this.deleteDialogVisible.set(false);
+        this.tabService.closeTab('customer');
         this.router.navigate(['/customers']);
       },
       error: (error) => {

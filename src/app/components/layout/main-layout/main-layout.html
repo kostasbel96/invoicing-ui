@@ -63,14 +63,14 @@
     <header class="toolbar">
       <div class="tabs">
         @for(tab of (tabService.tabs$ | async); track tab.route) {
-          <div
+          <a class="active-tab"
             (click)="onTabClick(tab)"
             [class.active]="(tabService.activeTab$ | async) === tab.route">
             {{ tab.title }}
-            <span (click)="closeTab(tab.route); $event.stopPropagation()">
+            <a class="close-tab" (click)="closeTab(tab.id); $event.stopPropagation()">
               ✕
-            </span>
-          </div>
+            </a>
+          </a>
 
         }
       </div>

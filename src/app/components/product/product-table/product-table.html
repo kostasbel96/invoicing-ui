@@ -1,0 +1,12 @@
+<app-table-ui
+  [columns]="columns"
+  [data]="data"
+  [loading]="loading()"
+  [totalRecords]="totalRecords"
+  [rows]="rows"
+  [rowType]="'product'"
+  (lazyLoad)="loadProducts($event)"
+  (globalSearch)="onSearch($event)"
+  [globalSearchPlaceholder]="'Αναζήτηση προιόντος κατά όνομα...'"
+  #table
+></app-table-ui>

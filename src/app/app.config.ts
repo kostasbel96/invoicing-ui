@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
@@ -8,6 +8,10 @@ import { definePreset } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 import { el } from 'primelocale/js/el.js';
 import { MessageService } from 'primeng/api';
+import { registerLocaleData } from '@angular/common';
+import localeEl from '@angular/common/locales/el';
+
+registerLocaleData(localeEl);
 
 const BlueAura = definePreset(Aura, {
   semantic: {

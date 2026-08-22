@@ -34,8 +34,8 @@ export class MainLayout {
     this.router.navigateByUrl(route);
   }
 
-  closeTab(route: string) {
-    const nextRoute = this.tabService.closeTab(route);
+  closeTab(id: string) {
+    const nextRoute = this.tabService.closeTab(id);
 
     if (nextRoute) {
       this.router.navigateByUrl(nextRoute);

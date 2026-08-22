@@ -22,7 +22,7 @@ export class TabService {
   addTab(tab: Tab) {
     const tabs = this.tabsSubject.value;
 
-    const existingTab = tabs.find(t => t.id === tab.id);
+    const existingTab = tabs.find((t) => t.id === tab.id);
 
     if (existingTab) {
       existingTab.route = tab.route;
@@ -38,16 +38,22 @@ export class TabService {
     this.activeTabSubject.next(route);
   }
 
-  closeTab(route: string): string | null {
-    const tabs = this.tabsSubject.value.filter((t) => t.route !== route);
+  closeTab(id: string): string | null {
+    const tabs = this.tabsSubject.value;
+    const tabToClose = tabs.find((t) => t.id === id);
 
-    this.tabsSubject.next(tabs);
+    if (!tabToClose) {
+      return null;
+    }
 
-    const isActive = this.activeTabSubject.value === route;
+    const remainingTabs = tabs.filter((t) => t.id !== id);
+
+    this.tabsSubject.next(remainingTabs);
+
+    const isActive = this.activeTabSubject.value === tabToClose.route;
 
     if (isActive) {
-      const fallback = tabs.at(-1) || null;
-
+      const fallback = remainingTabs.at(-1) || null;
       const nextRoute = fallback ? fallback.route : '/dashboard';
 
       this.setActive(nextRoute);
@@ -66,7 +72,8 @@ export class TabService {
       invoices: 'Παραστατικά',
       products: 'Προϊόντα',
       customer: 'Πληροφορίες Πελάτη',
-      newProduct: 'Νέο Προιόν'
+      newProduct: 'Νέο Προιόν',
+      product: 'Πληροφορίες Προϊόντος',
     };
 
     return map[id] ?? id;

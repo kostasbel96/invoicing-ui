@@ -6,7 +6,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ViewRowButton } from '../action-buttons-ui/view/view-row-button/view-row-button';
 
@@ -29,7 +29,7 @@ import { ViewRowButton } from '../action-buttons-ui/view/view-row-button/view-ro
 })
 export class TableUi<T> {
   @Input() data: T[] = [];
-  @Input() columns: { field: string; header: string; width?: number; sortable: boolean }[] = [];
+  @Input() columns: { field: string; header: string; width?: number; sortable: boolean, pipe?: string }[] = [];
   @Input() rows: number;
   @Input() rowType: string;
   @Input() loading: boolean = false;
@@ -50,5 +50,20 @@ export class TableUi<T> {
   onGlobalSearch(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.globalSearch.emit(value);
+  }
+
+  private readonly pipeMap: Record<string, any> = {
+    date: new DatePipe('el-GR'),
+    number: new DecimalPipe('el-GR'),
+  };
+
+  transformValue(value: any, pipeName?: string): any {
+    if (!pipeName) {
+      return value;
+    }
+
+    const pipe = this.pipeMap[pipeName];
+
+    return pipe ? pipe.transform(value) : value;
   }
 }

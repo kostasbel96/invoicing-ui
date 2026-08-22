@@ -55,14 +55,14 @@
     <ng-template pTemplate="body" let-item>
       <tr>
         @for(col of columns; track col.field){
-          <td [style.width.%]="100 / columns.length" [id]="col.field">{{ item[col.field] }}</td>
+          <td [style.width.%]="100 / columns.length" [id]="col.field">{{ transformValue(item[col.field], col.pipe) }}</td>
         }
         <td><app-view-row-button [rowId]="item.uuid" [rowType]="rowType" /></td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5">No customers found.</td>
+        <td colspan="5">No {{rowType}} found.</td>
       </tr>
     </ng-template>
   </p-table>

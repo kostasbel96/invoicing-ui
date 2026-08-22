@@ -3,7 +3,6 @@ export interface Product {
   uuid: string;
   name: string;
   price: number;
-  itemTypeId: number;
   description: string;
   unit: number;
   quantity: number;
@@ -34,30 +33,15 @@ export const productUnits: Unit[] = [
   },
   {
     id: 1,
-    name: 'ώρα'
-  },
-  {
-    id: 2,
     name: 'κγρ.'
   },
   {
-    id: 3,
+    id: 2,
     name: 'μ.'
   },
   {
-    id: 4,
+    id: 3,
     name: 'λτ.'
   }
 ];
-
-export const productTypes: ItemType[] = [
-  {
-    id: 0,
-    name: 'Προιόν'
-  },
-  {
-    id: 1,
-    name: 'Υπηρεσία'
-  }
-]
 
