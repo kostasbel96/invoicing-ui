@@ -94,6 +94,7 @@ export class CustomerView implements OnInit {
         });
         this.deleteDialogVisible.set(false);
         this.tabService.closeTab('customer');
+        this.tabService.setActive('/customers');
         this.router.navigate(['/customers']);
       },
       error: (error) => {

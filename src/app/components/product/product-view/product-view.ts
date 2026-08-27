@@ -86,6 +86,7 @@ export class ProductView implements OnInit {
         });
         this.deleteDialogVisible.set(false);
         this.tabService.closeTab('product');
+        this.tabService.setActive('/products');
         this.router.navigate(['/products']);
 
       },
