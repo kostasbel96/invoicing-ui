@@ -1,49 +1,16 @@
 @if (loading()) {
   <app-spinner-ui size="3rem" />
 } @else {
-  <div class="customer-page">
-
-    <div class="header">
-      <div>
-        <h2>Πληροφορίες Πελάτη</h2>
-        <span class="subtitle">
-          Στοιχεία πελάτη και βασικές πληροφορίες
-        </span>
-      </div>
-
-      <div class="actions">
-        <app-edit-button
-          (edit)="edit()"
-        />
-
-        <app-delete-button
-          (delete)="delete()"
-        />
-      </div>
-    </div>
-
-
-    <div class="info-card">
-
-      <div class="section-title">
-        <i class="pi pi-user"></i>
-        <span>Γενικά στοιχεία</span>
-      </div>
-
-      <div class="details-grid">
-        @for (field of customerFields; track field.key) {
-          <div class="field">
-            <label [for]="field.key">{{ field.label }}</label>
-            <div class="value">
-              {{ getFieldValue(field.key) || '-' }}
-            </div>
-          </div>
-        }
-      </div>
-
-    </div>
-
-  </div>
+  <app-details-item-ui
+    [item]="customer"
+    [fields]="customerFields"
+    [loading]="loading()"
+    title="Πληροφορίες Πελάτη"
+    subtitle="Στοιχεία πελάτη και βασικές πληροφορίες"
+    sectionTitle="Γενικά στοιχεία"
+    (editAction)="edit()"
+    (deleteAction)="delete()"
+  />
   <p-dialog
     header="Επεξεργασία Πελάτη"
     [(visible)]="updateDialogVisible"

@@ -2,7 +2,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CancelButton } from '../../ui/action-buttons-ui/cancel-button/cancel-button';
 import { DeleteButton } from '../../ui/action-buttons-ui/delete-button/delete-button';
 import { Dialog } from 'primeng/dialog';
-import { EditButton } from '../../ui/action-buttons-ui/edit-button/edit-button';
 import { SpinnerUi } from '../../ui/spinner-ui/spinner-ui';
 import { ProductForm } from '../product-form/product-form';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,10 +9,12 @@ import { MessageService } from 'primeng/api';
 import { Product, productUnits } from '../../../models/product.model';
 import { ProductService } from '../../../services/product-service';
 import { TabService } from '../../../services/tab-service';
+import { DetailsItemUi } from '../../ui/details-item-ui/details-item-ui';
+import { DetailField } from '../../../models/details-field.model';
 
 @Component({
   selector: 'app-product-view',
-  imports: [CancelButton, DeleteButton, Dialog, EditButton, SpinnerUi, ProductForm],
+  imports: [CancelButton, DeleteButton, Dialog, SpinnerUi, ProductForm, DetailsItemUi],
   templateUrl: './product-view.html',
   styleUrl: './product-view.scss',
 })
@@ -24,12 +25,12 @@ export class ProductView implements OnInit {
   uuid: string;
   loading = signal(true);
   protected readonly Object = Object;
-  productFields = [
+  productFields: DetailField<Product>[] = [
     { label: 'ΟΝΟΜΑΣΙΑ', key: 'name' },
     { label: 'ΠΕΡΙΓΡΑΦΗ', key: 'description' },
     { label: 'ΤΙΜΗ', key: 'price' },
     { label: 'ΠΟΣΟΤΗΤΑ', key: 'quantity' },
-    { label: 'Μ.Μ', key: 'unit' },
+    { label: 'Μ.Μ', key: 'unit', getValue: () => productUnits.find((unit) => unit.id === this.product.unit).name },
   ];
 
   constructor(
@@ -45,15 +46,6 @@ export class ProductView implements OnInit {
       this.uuid = params.get('uuid');
     });
     this.fetchProduct();
-  }
-
-  getFieldValue(key: string) {
-    switch (key) {
-      case 'unit':
-        return productUnits.find(unit => unit.id === this.product.unit).name;
-      default:
-        return this.product[key as keyof Product];
-    }
   }
 
   edit(): void {
@@ -88,7 +80,6 @@ export class ProductView implements OnInit {
         this.tabService.closeTab('product');
         this.tabService.setActive('/products');
         this.router.navigate(['/products']);
-
       },
       error: (error) => {
         console.error('Error deleting product:', error);

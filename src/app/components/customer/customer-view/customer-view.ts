@@ -5,15 +5,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerUi } from '../../ui/spinner-ui/spinner-ui';
 import { Dialog } from 'primeng/dialog';
 import { CustomerForm } from '../customer-form/customer-form';
-import { EditButton } from '../../ui/action-buttons-ui/edit-button/edit-button';
 import { DeleteButton } from '../../ui/action-buttons-ui/delete-button/delete-button';
 import { MessageService } from 'primeng/api';
 import { CancelButton } from '../../ui/action-buttons-ui/cancel-button/cancel-button';
 import { TabService } from '../../../services/tab-service';
+import { DetailsItemUi } from '../../ui/details-item-ui/details-item-ui';
+import { DetailField } from '../../../models/details-field.model';
 
 @Component({
   selector: 'app-customer-view',
-  imports: [SpinnerUi, Dialog, CustomerForm, EditButton, DeleteButton, CancelButton],
+  imports: [SpinnerUi, Dialog, CustomerForm, DeleteButton, CancelButton, DetailsItemUi],
   templateUrl: './customer-view.html',
   styleUrl: './customer-view.scss',
 })
@@ -24,7 +25,7 @@ export class CustomerView implements OnInit {
   uuid: string;
   loading = signal(true);
   protected readonly Object = Object;
-  customerFields = [
+  customerFields: DetailField<Customer>[] = [
     { label: 'ΟΝΟΜΑ', key: 'firstname' },
     { label: 'ΕΠΩΝΥΜΟ', key: 'lastname' },
     { label: 'ΕΠΩΝΥΜΙΑ', key: 'companyName' },
@@ -32,10 +33,10 @@ export class CustomerView implements OnInit {
     { label: 'Email', key: 'email' },
     { label: 'ΤΗΛΕΦΩΝΟ', key: 'phone' },
     { label: 'ΔΙΕΥΘΥΝΣΗ', key: 'address' },
-    { label: 'ΠΕΡΙΟΧΗ', key: 'region' },
+    { label: 'ΠΕΡΙΟΧΗ', key: 'region', getValue: () => this.customer.region?.name },
     { label: 'Τ.Κ.', key: 'postalCode' },
     { label: 'ΥΠΟΛΟΙΠΟ', key: 'balance' },
-    { label: 'ΔΟΥ', key: 'taxOffice' },
+    { label: 'ΔΟΥ', key: 'taxOffice', getValue: () => this.customer.taxOffice?.name },
   ];
 
   constructor(
@@ -43,7 +44,7 @@ export class CustomerView implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly messageService: MessageService,
     private readonly router: Router,
-    private readonly tabService: TabService
+    private readonly tabService: TabService,
   ) {}
 
   ngOnInit(): void {
@@ -51,17 +52,6 @@ export class CustomerView implements OnInit {
       this.uuid = params.get('uuid');
     });
     this.fetchCustomer();
-  }
-
-  getFieldValue(key: string) {
-    switch (key) {
-      case 'region':
-        return this.customer.region?.name;
-      case 'taxOffice':
-        return this.customer.taxOffice?.name;
-      default:
-        return this.customer[key as keyof Customer];
-    }
   }
 
   edit(): void {

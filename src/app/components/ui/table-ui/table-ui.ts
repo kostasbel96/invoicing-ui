@@ -29,7 +29,13 @@ import { ViewRowButton } from '../action-buttons-ui/view/view-row-button/view-ro
 })
 export class TableUi<T> {
   @Input() data: T[] = [];
-  @Input() columns: { field: string; header: string; width?: number; sortable: boolean, pipe?: string }[] = [];
+  @Input() columns: {
+    field: string;
+    header: string;
+    width?: number;
+    sortable: boolean;
+    pipe?: string;
+  }[] = [];
   @Input() rows: number;
   @Input() rowType: string;
   @Input() loading: boolean = false;
@@ -38,6 +44,11 @@ export class TableUi<T> {
   @Output() lazyLoad = new EventEmitter<TableLazyLoadEvent>();
   @Output() globalSearch = new EventEmitter<string>();
   @ViewChild('dt2') table!: Table;
+
+  private readonly pipeMap: Record<string, any> = {
+    date: new DatePipe('el-GR'),
+    number: new DecimalPipe('el-GR'),
+  };
 
   resetPage() {
     this.table.first = 0;
@@ -51,11 +62,6 @@ export class TableUi<T> {
     const value = (event.target as HTMLInputElement).value;
     this.globalSearch.emit(value);
   }
-
-  private readonly pipeMap: Record<string, any> = {
-    date: new DatePipe('el-GR'),
-    number: new DecimalPipe('el-GR'),
-  };
 
   transformValue(value: any, pipeName?: string): any {
     if (!pipeName) {
