@@ -9,6 +9,7 @@ html, body {
   margin: 0;
 }
 
+
 :root {
   --primary-color: #2563eb;
   --text-color-secondary: #6b7280;
@@ -123,5 +124,13 @@ form {
       cursor: not-allowed;
     }
   }
+}
+
+.p-dialog-update-style {
+  width: 60rem;
+  height: 70rem;
+  max-width: 60rem;
+  overflow-x: auto;
+  margin: 2rem;
 }
 
