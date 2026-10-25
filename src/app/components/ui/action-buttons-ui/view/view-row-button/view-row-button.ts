@@ -31,6 +31,7 @@ export class ViewRowButton {
       customer: 'customers',
       invoice: 'invoices',
       product: 'products',
+      serviceItem: 'serviceItems',
     };
 
     return routes[this.rowType] ?? '';

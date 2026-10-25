@@ -1,0 +1,12 @@
+<app-table-ui
+  [columns]="columns"
+  [data]="data"
+  [loading]="loading()"
+  [totalRecords]="totalRecords"
+  [rows]="rows"
+  [rowType]="'serviceItem'"
+  (lazyLoad)="loadServiceItems($event)"
+  (globalSearch)="onSearch($event)"
+  [globalSearchPlaceholder]="'Αναζήτηση υπηρεσίας κατά όνομα...'"
+  #table
+></app-table-ui>

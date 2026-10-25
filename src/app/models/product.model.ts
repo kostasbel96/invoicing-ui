@@ -1,17 +1,11 @@
-export interface Product {
-  id: number;
-  uuid: string;
-  name: string;
-  price: number;
-  description: string;
+import { Item, ItemInsert } from './item.model';
+
+export interface Product extends Item{
   unit: number;
   quantity: number;
 }
 
-export interface ProductInsert {
-  name: string;
-  price: number;
-  description: string;
+export interface ProductInsert extends ItemInsert{
   unit: number;
   quantity: number;
 }

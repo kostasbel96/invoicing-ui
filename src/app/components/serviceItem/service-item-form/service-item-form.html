@@ -1,0 +1,68 @@
+<form [formGroup]="serviceItemForm">
+
+  <div class="form-grid">
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="name">Όνομα</label>
+        <input type="text" id="name" formControlName="name" class="form-control">
+      </div>
+      <div class="error">
+        @if (serviceItemForm.get('name')?.touched && serviceItemForm.get('name')?.invalid) {
+
+          @if (serviceItemForm.get('name')?.errors?.['required']) {
+            <small>Το όνομα είναι υποχρεωτικό</small>
+          }
+
+          @if (serviceItemForm.get('name')?.errors?.['minlength']) {
+            <small>Τουλάχιστον 2 χαρακτήρες</small>
+          }
+
+          @if (serviceItemForm.get('name')?.errors?.['maxlength']) {
+            <small>Μέχρι 50 χαρακτήρες</small>
+          }
+
+        }
+      </div>
+
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="description">Περιγραφή</label>
+        <input type="text" id="description" formControlName="description" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="labeled-field">
+        <label for="price">Τιμή</label>
+        <input type="number" min="0" id="price" formControlName="price" class="form-control" inputmode="decimal">
+      </div>
+      <div class="error">
+        @if (serviceItemForm.get('price')?.touched && serviceItemForm.get('price')?.invalid) {
+
+          @if (serviceItemForm.get('price')?.errors?.['required']) {
+            <small>Η τιμή είναι υποχρεωτική</small>
+          }
+
+          @if (serviceItemForm.get('price')?.errors?.['pattern']) {
+            <small>Πρέπει να είναι αριθμός</small>
+          }
+
+          @if (serviceItemForm.get('price')?.errors?.['min']) {
+            <small>Η ελάχιστη επιτρεπόμενη τιμή είναι 0.01</small>
+          }
+
+        }
+      </div>
+    </div>
+
+  </div>
+
+  <div class="action-buttons">
+    <app-save-button [currentForm]="serviceItemForm" (saveAction)="onSubmit()"/>
+    <app-reset-button (resetAction)="onReset()"/>
+  </div>
+
+</form>

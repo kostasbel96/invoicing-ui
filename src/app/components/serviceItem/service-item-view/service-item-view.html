@@ -1,0 +1,55 @@
+@if (loading()) {
+  <app-spinner-ui size="3rem" />
+} @else {
+  <app-details-item-ui
+    [item]="serviceItem"
+    [fields]="serviceItemFields"
+    [loading]="loading()"
+    title="Πληροφορίες Υπηρεσίας"
+    subtitle="Στοιχεία υπηρεσίας και βασικές πληροφορίες"
+    sectionTitle="Γενικά στοιχεία"
+    (editAction)="edit()"
+    (deleteAction)="delete()"
+  />
+  <p-dialog
+    header="Επεξεργασία Υπηρεσίας"
+    [(visible)]="updateDialogVisible"
+    [modal]="true"
+    styleClass="p-dialog-update-style"
+    [closable]="true">
+
+    <app-service-item-form
+      [serviceItem]="serviceItem"
+      [mode]="'update'"
+      (closed)="serviceItemUpdated()">
+    </app-service-item-form>
+
+  </p-dialog>
+
+  <p-dialog
+    header="Διαγραφή Υπηρεσίας"
+    [(visible)]="deleteDialogVisible"
+    [modal]="true"
+    [style]="{ width: '60rem' }"
+    [closable]="true">
+    <div class="delete-dialog">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+
+      <h3>Επιβεβαίωση διαγραφής</h3>
+
+      <p>
+        Είστε βέβαιοι ότι θέλετε να διαγράψετε την υπηρεσία
+        <strong>{{ serviceItem?.name }}</strong>;
+      </p>
+
+      <p class="warning-text">
+        Η ενέργεια αυτή δεν μπορεί να αναιρεθεί.
+      </p>
+
+      <div class="dialog-actions">
+        <app-cancel-button (cancelAction)="deleteDialogVisible.set(false)"/>
+        <app-delete-button (delete)="confirmDelete()"/>
+      </div>
+    </div>
+  </p-dialog>
+}

@@ -7,6 +7,9 @@ import { CustomerView } from './components/customer/customer-view/customer-view'
 import { ProductForm } from './components/product/product-form/product-form';
 import { ProductTable } from './components/product/product-table/product-table';
 import { ProductView } from './components/product/product-view/product-view';
+import { ServiceItemTable } from './components/serviceItem/service-item-table/service-item-table';
+import { ServiceItemForm } from './components/serviceItem/service-item-form/service-item-form';
+import { ServiceItemView } from './components/serviceItem/service-item-view/service-item-view';
 
 export const routes: Routes = [
   {
@@ -53,6 +56,23 @@ export const routes: Routes = [
           {
             path: ':uuid',
             component: ProductView,
+          },
+        ],
+      },
+      {
+        path: 'serviceItems',
+        children: [
+          {
+            path: '',
+            component: ServiceItemTable,
+          },
+          {
+            path: 'new',
+            component: ServiceItemForm,
+          },
+          {
+            path: ':uuid',
+            component: ServiceItemView,
           },
         ],
       },

@@ -57,6 +57,26 @@
         </div>
       </div>
     </div>
+
+    <div class="menu-item">
+      <a>
+        <i class="pi pi-briefcase"></i>
+        <span class="label">Υπηρεσίες</span>
+      </a>
+      <div class="submenu">
+        <div>
+          <a [class.active]="isActive('/serviceItems/new', (activeTab$ | async))" (click)="openTab('newServiceItem', '/serviceItems/new')">
+            <span class="label-submenu">Νέα Υπηρεσία</span>
+          </a>
+        </div>
+
+        <div>
+          <a [class.active]="isActive('/serviceItems', (activeTab$ | async))" (click)="openTab('serviceItems', '/serviceItems')">
+            <span class="label-submenu">Λίστα Υπηρεσιών</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </aside>
 
   <div class="content">
