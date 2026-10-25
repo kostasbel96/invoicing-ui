@@ -21,11 +21,6 @@ export interface Unit {
   name: string;
 }
 
-export interface ItemType {
-  id: number;
-  name: string;
-}
-
 export const productUnits: Unit[] = [
   {
     id: 0,
